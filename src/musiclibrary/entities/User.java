@@ -9,13 +9,14 @@ public class User {
     private Gender gender;
     private TrackList[] trackLists;
     // Конструктор
-    public User(String name, String secName, int age, Gender gender) throws InterruptedException {
+    public User(String name, String secName, int age, Gender gender,int id) throws InterruptedException {
         this.name = name;
         this.secName = secName;
         this.age = age;
         this.gender = gender;
         this.id = getUniqId();
         this.trackLists = new TrackList[0];
+        this.id=id;
     }
     // Статический конструктор
     static {
@@ -66,4 +67,14 @@ public class User {
         }
         return isDeleteSucceed;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public TrackList[] getTrackLists() {
+        return trackLists;
+    }
+
+
 }
