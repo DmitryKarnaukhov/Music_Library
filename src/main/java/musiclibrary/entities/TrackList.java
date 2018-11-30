@@ -3,35 +3,25 @@ package musiclibrary.entities;
 import java.util.LinkedList;
 
 public class TrackList {
-    private String name;
-    private LinkedList<Track> tracks;
+    private final int id;
+    private final Album album;
+    private final LinkedList<Track> tracks;
 
-    public TrackList(String name, LinkedList<Track> tracks) {
-        this.name = name;
+    public TrackList(int id, Album album, LinkedList<Track> tracks) {
+        this.id = id;
+        this.album = album;
         this.tracks = tracks;
     }
-    public TrackList(String name) {
-        this.name = name;
-        this.tracks = new LinkedList<Track>();
+
+    public int getId() {
+        return id;
     }
 
-    public void add(Track track) {
-        tracks.add(track);
+    public Album getGetAlbum() {
+        return album;
     }
 
-    public  void add(int index, Track track) {
-        tracks.add(index, track);
-    }
-
-    public  boolean hasTrack(Track track) {
-        return tracks.contains(track);
-    }
-
-    public void removeTrack(Track track) {
-        tracks.remove(track);
-    }
-
-    public void removeTrack(int index) {
-        tracks.remove(index);
+    public  LinkedList<Track> getTracks() {
+        return tracks;
     }
 }
