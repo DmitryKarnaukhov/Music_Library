@@ -1,8 +1,9 @@
 package musiclibrary.entities;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
-public class TrackList {
+public class TrackList implements Serializable {
     private final int id;
     private final Album album;
     private final LinkedList<Track> tracks;

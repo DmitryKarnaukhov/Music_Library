@@ -1,22 +1,25 @@
 package musiclibrary.mvc.model;
 
-import musiclibrary.entities.Track;
-import musiclibrary.entities.User;
-import musiclibrary.mvc.Listener;
+import java.io.Serializable;
+import java.util.HashMap;
 
-import java.util.ArrayList;
-
-public class Model {
-    private UserContainer userList;
-    private TrackContainer trackList;
-    private ArrayList<Listener> listenerList;
+public class Model<T> implements Serializable {
+    private HashMap<Integer, T> map;
 
     public Model() {
-        userList=null;
-        trackList=null;
-        listenerList=null;
+        map = new HashMap<Integer, T>();
     }
 
+    public Model(HashMap<Integer, T> map) {
+        this.map = map;
+    }
 
+    public void setMap(HashMap<Integer, T> map) {
+        this.map = map;
+    }
+
+    public HashMap<Integer, T> getMap() {
+        return map;
+    }
 
 }

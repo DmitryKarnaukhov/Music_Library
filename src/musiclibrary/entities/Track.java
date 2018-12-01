@@ -1,87 +1,72 @@
 package musiclibrary.entities;
 
-// Класс музыкального трека
-public class Track {
-    static int nextId;
-    private int id;
-    private String name;
-    private String artist;
-    private String album;
-    private double trackLenght;
-    private Genre genre;
-// Конструктор
-    public Track(String name, String artist,
-                 String album, double trackLenght, Genre genre,int id) throws InterruptedException {
-        this.id = getUniqId();
+import java.io.Serializable;
+import java.util.Objects;
+
+public class Track implements Serializable {
+    private final int id;
+    private final String name;
+    private final Artist artist;
+    private final double trackLenght;
+    private final Genre genre;
+
+    public Track(int id, String name, Artist artist,
+                 double trackLenght, Genre genre) throws InterruptedException {
+        this.id = id;
         this.name = name;
         this.artist = artist;
-        this.album = album;
         if (trackLenght <= 0)
             throw new NumberFormatException("Недопустимое значение длины трека");
         this.trackLenght = trackLenght;
         this.genre = genre;
-        this.id=id;
     }
-    // статический конструктор
-    static {
-        nextId = 0;
-    }
-// Геттер названия трека
+
     public String getName() {
         return name;
     }
-// Сеттер названия трека
-    public void setName(String name) {
-        this.name = name;
-    }
-// Геттер имени артиста
-    public String getArtist() {
+
+    public Artist getArtist() {
         return artist;
     }
-// Сеттер названия артиста
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-// Геттер названия альбома
-    public String getAlbum() {
-        return album;
-    }
-// Сеттер названия альбома
-    public void setAlbum(String album) {
-        this.album = album;
-    }
-// Геттер длинны трека
+
     public double getTrackLenght() {
         return trackLenght;
     }
-// Получает уникальный id для трека
-    private synchronized int getUniqId() throws InterruptedException {
-        wait();
-        if (nextId != 0)
-            nextId++;
-        notify();
-        return nextId;
-    }
-// Устанавливает в каком случае равны два трека
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof Track))
-            return false;
-        Track trackObj = (Track)obj;
-        if (this.id == trackObj.id)
-            return true;
-        return false;
-    }
 
-    public String toString(){
-        String s="";
-        s+=id+" "+name+" "+artist+" "+album+" "+trackLenght+" "+genre;
-        return s;
+    public Genre getGenre() {
+        return genre;
     }
-
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Track{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", artist=" + artist +
+                ", trackLenght=" + trackLenght +
+                ", genre=" + genre +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Track track = (Track) o;
+        return id == track.id &&
+                Double.compare(track.trackLenght, trackLenght) == 0 &&
+                Objects.equals(name, track.name) &&
+                Objects.equals(artist, track.artist) &&
+                genre == track.genre;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, artist, trackLenght, genre);
     }
 }
 
