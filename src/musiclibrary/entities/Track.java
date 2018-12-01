@@ -11,7 +11,7 @@ public class Track {
     private Genre genre;
 // Конструктор
     public Track(String name, String artist,
-                 String album, double trackLenght, Genre genre) throws InterruptedException {
+                 String album, double trackLenght, Genre genre,int id) throws InterruptedException {
         this.id = getUniqId();
         this.name = name;
         this.artist = artist;
@@ -20,6 +20,7 @@ public class Track {
             throw new NumberFormatException("Недопустимое значение длины трека");
         this.trackLenght = trackLenght;
         this.genre = genre;
+        this.id=id;
     }
     // статический конструктор
     static {
@@ -70,6 +71,17 @@ public class Track {
         if (this.id == trackObj.id)
             return true;
         return false;
+    }
+
+    public String toString(){
+        String s="";
+        s+=id+" "+name+" "+artist+" "+album+" "+trackLenght+" "+genre;
+        return s;
+    }
+
+
+    public int getId() {
+        return id;
     }
 }
 
