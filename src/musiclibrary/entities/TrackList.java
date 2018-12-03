@@ -25,4 +25,13 @@ public class TrackList implements Serializable {
     public  LinkedList<Track> getTracks() {
         return tracks;
     }
+
+    @Override
+    public String toString() {
+        return "TrackList{" +
+                "id=" + id +
+                ", album=" + album +
+                ", tracks=" + tracks +
+                '}';
+    }
 }

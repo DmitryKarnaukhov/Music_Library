@@ -1,10 +1,10 @@
 package musiclibrary;
 
-import musiclibrary.entities.Artist;
-import musiclibrary.entities.Genre;
-import musiclibrary.entities.Track;
-import musiclibrary.entities.User;
+import musiclibrary.entities.*;
+import musiclibrary.mvc.controller.ArtistController;
 import musiclibrary.mvc.controller.TrackController;
+import musiclibrary.mvc.controller.TrackListController;
+import musiclibrary.mvc.controller.UserController;
 import musiclibrary.mvc.model.Model;
 import musiclibrary.mvc.view.SaveLoadService;
 
@@ -14,15 +14,25 @@ public class Main {
     public static void main(String[] args) throws IOException,InterruptedException {
         System.out.println(new File("").getAbsolutePath());
 
-
-        SaveLoadService saveLoadService = new SaveLoadService();
+        ArtistController artistController = new ArtistController(new Model<Artist>());
         TrackController trackController = new TrackController(new Model<Track>());
-        int id= trackController.addTrack("Get Rich", new Artist(0, "Tyga"), 1.22, Genre.Rap);
-        System.out.println("Addad: "+ trackController.getTrack(id));
+        TrackListController trackListController = new TrackListController((new Model<TrackList>()));
+        UserController userController = new UserController(new Model<User>());
+        SaveLoadService saveLoadService = new SaveLoadService(artistController,trackController,trackListController,userController);
 
-        saveLoadService.save(trackController.getTrackContainer());
+        artistController.addListener(saveLoadService);
+        trackController.addListener(saveLoadService);
+        trackListController.addListener(saveLoadService);
+        userController.addListener(saveLoadService);
 
-        TrackController trackController1 = new TrackController(saveLoadService.load()[0]);
+        int tygaid = artistController.addArtist("Tyga");
+        int id= trackController.addTrack("Get Rich", artistController.getArtist(tygaid), 1.22, Genre.Rap);
+        trackController.addTrack("Too Rich",artistController.getArtist(tygaid),3.48,Genre.Rap);
+       // System.out.println("Addad: "+ trackController.getTrack(id));
+
+        //saveLoadService.save(trackController.getTrackContainer());
+
+        TrackController trackController1 = new TrackController(saveLoadService.load()[1]);
         System.out.println("Getted:" +  trackController1.getTrack(id));
 
     }

@@ -4,15 +4,33 @@ import musiclibrary.entities.Artist;
 import musiclibrary.entities.Genre;
 import musiclibrary.entities.Track;
 import musiclibrary.mvc.model.Model;
+import musiclibrary.mvc.view.Listener;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 
-public class TrackController implements Controller {
+public class TrackController {
     private Model<Track> trackContainer;
     private String path;
+    private ArrayList<Listener> listeners;
+
+    public void addListener (Listener listener){
+        listeners.add(listener);
+    }
+    // Model Number:
+    // User - 3
+    // TrackList - 2
+    // Track - 1
+    // Artist -0
+    private void update(boolean del,int id){
+        for (Listener l:listeners
+        ) {
+            l.somethingChanged(1,del,id);
+        }
+    }
 
     private TrackController() {
     }
@@ -20,23 +38,24 @@ public class TrackController implements Controller {
     public TrackController(Model<Track> trackContainer) {
         this.trackContainer = trackContainer;
         path = new File("").getAbsolutePath();
+        listeners = new ArrayList<Listener>();
     }
 
     private int getNextTrackId() {
         int id =0;
-        if(! new File(path+"src/savedfiles/id.out").exists()){
-            try(FileWriter fileWriter = new FileWriter(path+"src/savedfiles/id.out",false)){
+        if(! new File(path+"/src/savedfiles/id.out").exists()){
+            try(FileWriter fileWriter = new FileWriter(path+"/src/savedfiles/id.out",false)){
                 fileWriter.write(0);
             }catch (Exception e){
                 e.getMessage();
             }
         }else{
-            try(FileReader fileReader =new FileReader(path+"src/savedfiles/id.out")){
+            try(FileReader fileReader =new FileReader(path+"/src/savedfiles/id.out")){
                 id=fileReader.read();
             }catch (Exception e){
                 e.getMessage();
             }
-            try(FileWriter fileWriter = new FileWriter(path+"src/savedfiles/id.out",false)){
+            try(FileWriter fileWriter = new FileWriter(path+"/src/savedfiles/id.out",false)){
                 fileWriter.write(id+1);
             }catch (Exception e){
                 e.getMessage();
@@ -54,6 +73,7 @@ public class TrackController implements Controller {
             map.put(track.getId(), track);
         } catch (NumberFormatException e) {
         }
+        this.update(false, id);
         return id;
     }
 
@@ -62,6 +82,7 @@ public class TrackController implements Controller {
         if (map.containsKey(trackId)) {
             map.remove(trackId);
         }
+        this.update(true, trackId);
     }
 
     public void changeTrack(int changedTrackId, String name, Artist artist, double trackLenght, Genre genre) throws InterruptedException {
@@ -74,6 +95,7 @@ public class TrackController implements Controller {
             map.put(changedTrackId, track);
         } catch (Exception e) {
         }
+        this.update(false, changedTrackId);
     }
 
     public Track getTrack(int id) {

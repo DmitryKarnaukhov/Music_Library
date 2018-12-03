@@ -1,6 +1,8 @@
 package musiclibrary.mvc.controller;
 
-public interface Controller {
-
-
+public class Controller {
+    private ArtistController artistController;
+    private TrackController trackController;
+    private TrackListController trackListController;
+    private UserController userController;
 }

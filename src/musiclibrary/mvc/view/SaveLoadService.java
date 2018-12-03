@@ -1,13 +1,59 @@
 package musiclibrary.mvc.view;
 
-import musiclibrary.mvc.Listener;
+import musiclibrary.entities.Artist;
+import musiclibrary.entities.Track;
+import musiclibrary.entities.TrackList;
+import musiclibrary.entities.User;
+import musiclibrary.mvc.controller.ArtistController;
+import musiclibrary.mvc.controller.TrackController;
+import musiclibrary.mvc.controller.TrackListController;
+import musiclibrary.mvc.controller.UserController;
 import musiclibrary.mvc.model.Model;
 
 import java.io.*;
 
-public class SaveLoadService {
-    Listener listener;
-    String path = new File("").getAbsolutePath();
+public class SaveLoadService implements Listener {
+    private String path = new File("").getAbsolutePath();
+    private Model[] models;
+
+    public SaveLoadService(ArtistController AC, TrackController TC, TrackListController TLC, UserController UC) {
+        this.models = new Model[]{AC.getArtistContainer(),TC.getTrackContainer(), TLC.getTrackListContainer(),UC.getUserContainer()};
+    }
+
+    @Override
+    public void somethingChanged(int modelNum, boolean delete, int id) {
+        switch (modelNum){
+            case 0:{
+                if (delete==false){
+                    ArtistController trackController = new ArtistController(models[modelNum]);
+                    System.out.println("Changed:"+ trackController.getArtist(id));
+                }
+                break;
+            }
+            case 1:{
+                if (delete==false){
+                    TrackController trackController = new TrackController(models[modelNum]);
+                    System.out.println("Changed:"+ trackController.getTrack(id));
+                }
+                break;
+            }
+            case 2:{
+                if (delete==false){
+                    TrackListController trackController = new TrackListController(models[modelNum]);
+                    System.out.println("Changed:"+ trackController.getTrackList(id));
+                }
+                break;
+            }
+            case 3:{
+                if (delete==false) {
+                    UserController userController =new UserController((models[modelNum]));
+                    System.out.println("Changed:"+ userController.getUser(id));
+                }
+                break;
+            }
+        }
+        this.save(models);
+    }
 
     public void save(Model...models){
         try(FileOutputStream fos = new FileOutputStream(path+"/src/savedfiles/model.out")){

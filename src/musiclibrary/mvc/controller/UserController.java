@@ -4,16 +4,35 @@ import musiclibrary.entities.Gender;
 import musiclibrary.entities.TrackList;
 import musiclibrary.entities.User;
 import musiclibrary.mvc.model.Model;
+import musiclibrary.mvc.view.Listener;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 
-public class UserController implements Controller {
+public class UserController {
     private Model<User> userContainer;
     private String path;
+    private ArrayList<Listener> listeners;
+
+    public void addListener (Listener listener){
+        listeners.add(listener);
+    }
+    // Model Number:
+    // User - 3
+    // TrackList - 2
+    // Track - 1
+    // Artist -0
+    private void update(boolean del,int id){
+        for (Listener l:listeners
+             ) {
+            l.somethingChanged(3,del,id);
+        }
+    }
 
     private UserController() {
     }
@@ -21,6 +40,7 @@ public class UserController implements Controller {
     public UserController(Model<User> userContainer) {
         this.userContainer = userContainer;
         path = new File("").getAbsolutePath();
+        listeners = new ArrayList<Listener>();
     }
 
     private int getNextUserId(){
@@ -55,13 +75,15 @@ public class UserController implements Controller {
             map.put(user.getId(),user);
         }
         catch (NumberFormatException e){}
+        this.update(false, id);
         return id;
     }
-    public void delTrack(int userId){
+    public void delUser(int userId){
         HashMap<Integer, User> map = userContainer.getMap();
         if (map.containsKey(userId)){
             map.remove(userId);
         }
+        this.update(true, userId);
     }
     public void changeUser(int changedUserId,String name, LinkedList<TrackList> trackLists) throws InterruptedException{
         try{
@@ -72,6 +94,7 @@ public class UserController implements Controller {
             }
             map.put(changedUserId,user);
         }catch (Exception e){}
+        this.update(false,changedUserId);
     }
 
     public User getUser(int id) {
