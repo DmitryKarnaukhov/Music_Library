@@ -1,7 +1,9 @@
 package musiclibrary.mvc.controller;
 
-import musiclibrary.entities.*;
+import com.google.inject.Inject;
+import musiclibrary.entities.Gender;
 import musiclibrary.entities.TrackList;
+import musiclibrary.entities.User;
 import musiclibrary.mvc.model.Model;
 import musiclibrary.mvc.view.Listener;
 
@@ -10,10 +12,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 
-public class TrackListController {
-    private Model<TrackList> TrackListContainer;
+public class UserController {
+    private Model<User> userContainer;
     private String path;
     private ArrayList<Listener> listeners;
 
@@ -28,20 +31,21 @@ public class TrackListController {
     private void update(boolean del,int id){
         for (Listener l:listeners
         ) {
-            l.somethingChanged(2,del,id);
+            l.somethingChanged(3,del,id);
         }
     }
 
-    private TrackListController() {
+    private UserController() {
     }
 
-    public TrackListController(Model<TrackList> TrackListContainer) {
-        this.TrackListContainer = TrackListContainer;
+    @Inject
+    public UserController(Model<User> userContainer) {
+        this.userContainer = userContainer;
         path = new File("").getAbsolutePath();
         listeners = new ArrayList<Listener>();
     }
 
-    private int getNextTrackListId() {
+    private int getNextUserId(){
         int id =0;
         if(! new File(path+"src/savedfiles/id.out").exists()){
             try(FileWriter fileWriter = new FileWriter(path+"src/savedfiles/id.out",false)){
@@ -64,47 +68,44 @@ public class TrackListController {
         return id;
     }
 
-    public int addTrackList(Album album, LinkedList<Track> tracks) throws InterruptedException {
+    public int addUser(String name, LinkedList<TrackList> trackLists) throws InterruptedException {
         int id=0;
-        try {
-            id=getNextTrackListId();
-            TrackList TrackList = new TrackList(id, album,tracks);
-            HashMap<Integer, TrackList> map = TrackListContainer.getMap();
-            map.put(TrackList.getId(), TrackList);
-        } catch (NumberFormatException e) {
+        try{
+            id=getNextUserId();
+            User user = new User(id,name, trackLists);
+            HashMap<Integer, User> map = userContainer.getMap();
+            map.put(user.getId(),user);
         }
+        catch (NumberFormatException e){}
         this.update(false, id);
         return id;
     }
-
-    public void delTrackList(int TrackListId) {
-        HashMap<Integer, TrackList> map = TrackListContainer.getMap();
-        if (map.containsKey(TrackListId)) {
-            map.remove(TrackListId);
+    public void delUser(int userId){
+        HashMap<Integer, User> map = userContainer.getMap();
+        if (map.containsKey(userId)){
+            map.remove(userId);
         }
-        this.update(true, TrackListId);
+        this.update(true, userId);
     }
-
-    public void changeTrackList(int changedTrackListId, Album album, LinkedList<Track> tracks) throws InterruptedException {
-        try {
-            HashMap<Integer, TrackList> map = TrackListContainer.getMap();
-            TrackList TrackList = new TrackList(getNextTrackListId(), album,tracks);
-            if (map.containsKey(changedTrackListId)) {
-                map.remove(changedTrackListId);
+    public void changeUser(int changedUserId,String name, LinkedList<TrackList> trackLists) throws InterruptedException{
+        try{
+            HashMap<Integer, User> map = userContainer.getMap();
+            User user = new User(getNextUserId(),name, trackLists);
+            if (map.containsKey(changedUserId)){
+                map.remove(changedUserId);
             }
-            map.put(changedTrackListId, TrackList);
-        } catch (Exception e) {
-        }
-        this.update(false, changedTrackListId);
+            map.put(changedUserId,user);
+        }catch (Exception e){}
+        this.update(false,changedUserId);
     }
 
-    public TrackList getTrackList(int id) {
-        HashMap<Integer, TrackList> map = TrackListContainer.getMap();
+    public User getUser(int id) {
+        HashMap<Integer, User> map = userContainer.getMap();
         if (map.containsKey(id)) return map.get(id);
         return null;
     }
 
-    public Model<TrackList> getTrackListContainer() {
-        return TrackListContainer;
+    public Model<User> getUserContainer() {
+        return userContainer;
     }
 }

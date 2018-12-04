@@ -1,9 +1,6 @@
 package musiclibrary.mvc.view;
 
-import musiclibrary.entities.Artist;
-import musiclibrary.entities.Track;
-import musiclibrary.entities.TrackList;
-import musiclibrary.entities.User;
+import com.google.inject.Inject;
 import musiclibrary.mvc.controller.ArtistController;
 import musiclibrary.mvc.controller.TrackController;
 import musiclibrary.mvc.controller.TrackListController;
@@ -16,6 +13,7 @@ public class SaveLoadService implements Listener {
     private String path = new File("").getAbsolutePath();
     private Model[] models;
 
+    @Inject
     public SaveLoadService(ArtistController AC, TrackController TC, TrackListController TLC, UserController UC) {
         this.models = new Model[]{AC.getArtistContainer(),TC.getTrackContainer(), TLC.getTrackListContainer(),UC.getUserContainer()};
     }
@@ -60,7 +58,7 @@ public class SaveLoadService implements Listener {
             try(ObjectOutputStream oos = new ObjectOutputStream(fos)){
                 oos.writeInt(models.length);
                 for (Model model:models
-                     ) {
+                ) {
                     oos.writeObject(model);
                 }
                 oos.flush();

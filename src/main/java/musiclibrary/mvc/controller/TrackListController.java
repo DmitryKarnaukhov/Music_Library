@@ -1,8 +1,8 @@
 package musiclibrary.mvc.controller;
 
-import musiclibrary.entities.Artist;
-import musiclibrary.entities.Genre;
-import musiclibrary.entities.Artist;
+import com.google.inject.Inject;
+import musiclibrary.entities.*;
+import musiclibrary.entities.TrackList;
 import musiclibrary.mvc.model.Model;
 import musiclibrary.mvc.view.Listener;
 
@@ -11,9 +11,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
-public class ArtistController {
-    private Model<Artist> ArtistContainer;
+public class TrackListController {
+    private Model<TrackList> TrackListContainer;
     private String path;
     private ArrayList<Listener> listeners;
 
@@ -22,26 +23,27 @@ public class ArtistController {
     }
     // Model Number:
     // User - 3
-    // ArtistList - 2
+    // TrackList - 2
     // Track - 1
     // Artist -0
     private void update(boolean del,int id){
         for (Listener l:listeners
         ) {
-            l.somethingChanged(0,del,id);
+            l.somethingChanged(2,del,id);
         }
     }
 
-    private ArtistController() {
+    private TrackListController() {
     }
 
-    public ArtistController(Model<Artist> ArtistContainer) {
-        this.ArtistContainer = ArtistContainer;
+    @Inject
+    public TrackListController(Model<TrackList> TrackListContainer) {
+        this.TrackListContainer = TrackListContainer;
         path = new File("").getAbsolutePath();
         listeners = new ArrayList<Listener>();
     }
 
-    private int getNextArtistId() {
+    private int getNextTrackListId() {
         int id =0;
         if(! new File(path+"src/savedfiles/id.out").exists()){
             try(FileWriter fileWriter = new FileWriter(path+"src/savedfiles/id.out",false)){
@@ -64,47 +66,47 @@ public class ArtistController {
         return id;
     }
 
-    public int addArtist(String name) throws InterruptedException {
+    public int addTrackList(Album album, LinkedList<Track> tracks) throws InterruptedException {
         int id=0;
         try {
-            id=getNextArtistId();
-            Artist Artist = new Artist(id,name);
-            HashMap<Integer, Artist> map = ArtistContainer.getMap();
-            map.put(Artist.getId(), Artist);
+            id=getNextTrackListId();
+            TrackList TrackList = new TrackList(id, album,tracks);
+            HashMap<Integer, TrackList> map = TrackListContainer.getMap();
+            map.put(TrackList.getId(), TrackList);
         } catch (NumberFormatException e) {
         }
         this.update(false, id);
         return id;
     }
 
-    public void delArtist(int ArtistId) {
-        HashMap<Integer, Artist> map = ArtistContainer.getMap();
-        if (map.containsKey(ArtistId)) {
-            map.remove(ArtistId);
+    public void delTrackList(int TrackListId) {
+        HashMap<Integer, TrackList> map = TrackListContainer.getMap();
+        if (map.containsKey(TrackListId)) {
+            map.remove(TrackListId);
         }
-        this.update(true, ArtistId);
+        this.update(true, TrackListId);
     }
 
-    public void changeArtist(int changedArtistId, String name) throws InterruptedException {
+    public void changeTrackList(int changedTrackListId, Album album, LinkedList<Track> tracks) throws InterruptedException {
         try {
-            HashMap<Integer, Artist> map = ArtistContainer.getMap();
-            Artist Artist = new Artist(getNextArtistId(), name);
-            if (map.containsKey(changedArtistId)) {
-                map.remove(changedArtistId);
+            HashMap<Integer, TrackList> map = TrackListContainer.getMap();
+            TrackList TrackList = new TrackList(getNextTrackListId(), album,tracks);
+            if (map.containsKey(changedTrackListId)) {
+                map.remove(changedTrackListId);
             }
-            map.put(changedArtistId, Artist);
+            map.put(changedTrackListId, TrackList);
         } catch (Exception e) {
         }
-        this.update(false, changedArtistId);
+        this.update(false, changedTrackListId);
     }
 
-    public Artist getArtist(int id) {
-        HashMap<Integer, Artist> map = ArtistContainer.getMap();
+    public TrackList getTrackList(int id) {
+        HashMap<Integer, TrackList> map = TrackListContainer.getMap();
         if (map.containsKey(id)) return map.get(id);
         return null;
     }
 
-    public Model<Artist> getArtistContainer() {
-        return ArtistContainer;
+    public Model<TrackList> getTrackListContainer() {
+        return TrackListContainer;
     }
 }

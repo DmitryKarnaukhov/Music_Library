@@ -1,5 +1,6 @@
 package musiclibrary.mvc.controller;
 
+import com.google.inject.Inject;
 import musiclibrary.entities.Artist;
 import musiclibrary.entities.Genre;
 import musiclibrary.entities.Track;
@@ -35,6 +36,7 @@ public class TrackController {
     private TrackController() {
     }
 
+    @Inject
     public TrackController(Model<Track> trackContainer) {
         this.trackContainer = trackContainer;
         path = new File("").getAbsolutePath();
