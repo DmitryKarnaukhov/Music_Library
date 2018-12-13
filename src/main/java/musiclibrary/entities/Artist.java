@@ -1,6 +1,7 @@
 package musiclibrary.entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Artist implements Serializable {
     private final int id;
@@ -24,5 +25,18 @@ public class Artist implements Serializable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || this.getClass() != obj.getClass())
+            return false;
+        return this.id == ((Artist)obj).id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

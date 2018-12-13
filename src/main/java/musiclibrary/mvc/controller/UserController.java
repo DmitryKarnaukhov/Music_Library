@@ -1,6 +1,8 @@
 package musiclibrary.mvc.controller;
 
+import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import musiclibrary.entities.Gender;
 import musiclibrary.entities.TrackList;
 import musiclibrary.entities.User;
@@ -15,6 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+@Singleton
 public class UserController {
     private Model<User> userContainer;
     private String path;
@@ -72,7 +75,7 @@ public class UserController {
         int id=0;
         try{
             id=getNextUserId();
-            User user = new User(id,name, trackLists);
+            User user = new User(id,name, ImmutableList.copyOf(trackLists));
             HashMap<Integer, User> map = userContainer.getMap();
             map.put(user.getId(),user);
         }
@@ -90,7 +93,7 @@ public class UserController {
     public void changeUser(int changedUserId,String name, LinkedList<TrackList> trackLists) throws InterruptedException{
         try{
             HashMap<Integer, User> map = userContainer.getMap();
-            User user = new User(getNextUserId(),name, trackLists);
+            User user = new User(getNextUserId(),name, ImmutableList.copyOf(trackLists));
             if (map.containsKey(changedUserId)){
                 map.remove(changedUserId);
             }

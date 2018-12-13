@@ -1,6 +1,6 @@
 package musiclibrary.mvc.controller;
 
-import com.google.inject.Inject;
+import com.google.inject.*;
 import musiclibrary.entities.Artist;
 import musiclibrary.entities.Genre;
 import musiclibrary.entities.Artist;

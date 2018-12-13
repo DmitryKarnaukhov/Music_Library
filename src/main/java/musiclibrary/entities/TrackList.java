@@ -1,14 +1,16 @@
 package musiclibrary.entities;
 
+import com.google.common.collect.ImmutableList;
 import java.io.Serializable;
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class TrackList implements Serializable {
     private final int id;
     private final Album album;
-    private final LinkedList<Track> tracks;
+    private ImmutableList<Track> tracks;
 
-    public TrackList(int id, Album album, LinkedList<Track> tracks) {
+    public TrackList(int id, Album album, ImmutableList<Track> tracks) {
         this.id = id;
         this.album = album;
         this.tracks = tracks;
@@ -22,7 +24,7 @@ public class TrackList implements Serializable {
         return album;
     }
 
-    public  LinkedList<Track> getTracks() {
+    public  ImmutableList<Track> getTracks() {
         return tracks;
     }
 
@@ -33,5 +35,18 @@ public class TrackList implements Serializable {
                 ", album=" + album +
                 ", tracks=" + tracks +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || this.getClass() != obj.getClass())
+            return false;
+        return this.id == ((TrackList)obj).id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, album, tracks);
     }
 }

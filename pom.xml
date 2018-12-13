@@ -20,6 +20,19 @@
         </plugins>
     </build>
 
+    <dependencyManagement>
+        <dependencies>
+            <!-- BOM с указанием версий артефактов для Arquillian -->
+            <dependency>
+                <groupId>org.jboss.arquillian</groupId>
+                <artifactId>arquillian-bom</artifactId>
+                <version>1.1.8.Final</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -36,6 +49,16 @@
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
             <version>4.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>listenablefuture</artifactId>
+            <version>9999.0-empty-to-avoid-conflict-with-guava</version>
         </dependency>
     </dependencies>
 

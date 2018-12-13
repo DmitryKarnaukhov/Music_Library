@@ -1,6 +1,8 @@
 package musiclibrary.mvc.controller;
 
+import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import musiclibrary.entities.*;
 import musiclibrary.entities.TrackList;
 import musiclibrary.mvc.model.Model;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+@Singleton
 public class TrackListController {
     private Model<TrackList> TrackListContainer;
     private String path;
@@ -70,7 +73,7 @@ public class TrackListController {
         int id=0;
         try {
             id=getNextTrackListId();
-            TrackList TrackList = new TrackList(id, album,tracks);
+            TrackList TrackList = new TrackList(id, album, ImmutableList.copyOf(tracks));
             HashMap<Integer, TrackList> map = TrackListContainer.getMap();
             map.put(TrackList.getId(), TrackList);
         } catch (NumberFormatException e) {
@@ -90,7 +93,7 @@ public class TrackListController {
     public void changeTrackList(int changedTrackListId, Album album, LinkedList<Track> tracks) throws InterruptedException {
         try {
             HashMap<Integer, TrackList> map = TrackListContainer.getMap();
-            TrackList TrackList = new TrackList(getNextTrackListId(), album,tracks);
+            TrackList TrackList = new TrackList(getNextTrackListId(), album, ImmutableList.copyOf(tracks));
             if (map.containsKey(changedTrackListId)) {
                 map.remove(changedTrackListId);
             }

@@ -1,5 +1,7 @@
 package musiclibrary.entities;
 
+import com.google.common.collect.ImmutableList;
+
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -7,9 +9,9 @@ import java.util.Objects;
 public class User implements Serializable {
     private final int id;
     private final String name;
-    private final LinkedList<TrackList> trackLists;
+    private final ImmutableList<TrackList> trackLists;
 
-    public User(int id, String name, LinkedList<TrackList> trackLists) throws InterruptedException {
+    public User(int id, String name, ImmutableList<TrackList> trackLists) {
         this.id = id;
         this.name = name;
         this.trackLists = trackLists;
@@ -39,9 +41,7 @@ public class User implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id &&
-                Objects.equals(name, user.name) &&
-                Objects.equals(trackLists, user.trackLists);
+        return id == user.id;
     }
 
     @Override

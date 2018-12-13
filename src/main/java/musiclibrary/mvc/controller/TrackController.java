@@ -1,6 +1,7 @@
 package musiclibrary.mvc.controller;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import musiclibrary.entities.Artist;
 import musiclibrary.entities.Genre;
 import musiclibrary.entities.Track;
@@ -13,6 +14,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+@Singleton
 public class TrackController {
     private Model<Track> trackContainer;
     private String path;

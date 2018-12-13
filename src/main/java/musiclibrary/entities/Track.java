@@ -11,7 +11,7 @@ public class Track implements Serializable {
     private final Genre genre;
 
     public Track(int id, String name, Artist artist,
-                 double trackLenght, Genre genre) throws InterruptedException {
+                 double trackLenght, Genre genre) {
         this.id = id;
         this.name = name;
         this.artist = artist;
@@ -57,11 +57,7 @@ public class Track implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Track track = (Track) o;
-        return id == track.id &&
-                Double.compare(track.trackLenght, trackLenght) == 0 &&
-                Objects.equals(name, track.name) &&
-                Objects.equals(artist, track.artist) &&
-                genre == track.genre;
+        return id == track.id;
     }
 
     @Override

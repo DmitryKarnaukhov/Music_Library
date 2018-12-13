@@ -1,12 +1,14 @@
 package musiclibrary.mvc.view;
 
 import com.google.inject.Inject;
+import com.google.inject.Provides;
 import musiclibrary.mvc.controller.ArtistController;
 import musiclibrary.mvc.controller.TrackController;
 import musiclibrary.mvc.controller.TrackListController;
 import musiclibrary.mvc.controller.UserController;
 import musiclibrary.mvc.model.Model;
 
+import javax.inject.Singleton;
 import java.io.*;
 
 public class SaveLoadService implements Listener {
@@ -15,7 +17,11 @@ public class SaveLoadService implements Listener {
 
     @Inject
     public SaveLoadService(ArtistController AC, TrackController TC, TrackListController TLC, UserController UC) {
-        this.models = new Model[]{AC.getArtistContainer(),TC.getTrackContainer(), TLC.getTrackListContainer(),UC.getUserContainer()};
+        this.models = getNewModels(AC, TC, TLC, UC);
+    }
+    @Provides @Singleton
+    private  Model[] getNewModels(ArtistController AC, TrackController TC, TrackListController TLC, UserController UC) {
+        return new Model[]{AC.getArtistContainer(),TC.getTrackContainer(), TLC.getTrackListContainer(),UC.getUserContainer()};
     }
 
     @Override
