@@ -13,7 +13,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ArtistController {
+public class ArtistController implements Controller {
     private Model<Artist> ArtistContainer;
     private String path;
     private ArrayList<Listener> listeners;
@@ -26,7 +26,7 @@ public class ArtistController {
     // ArtistList - 2
     // Track - 1
     // Artist -0
-    private void update(boolean del,int id){
+    public void update(boolean del,int id){
         for (Listener l:listeners
         ) {
             l.somethingChanged(0,del,id);

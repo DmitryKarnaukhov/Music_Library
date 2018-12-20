@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @Singleton
-public class TrackController {
+public class TrackController implements Controller {
     private Model<Track> trackContainer;
     private String path;
     private ArrayList<Listener> listeners;
@@ -28,7 +28,7 @@ public class TrackController {
     // TrackList - 2
     // Track - 1
     // Artist -0
-    private void update(boolean del,int id){
+    public void update(boolean del,int id){
         for (Listener l:listeners
         ) {
             l.somethingChanged(1,del,id);

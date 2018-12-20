@@ -19,7 +19,7 @@ public class SaveLoadService implements Listener {
     public SaveLoadService(ArtistController AC, TrackController TC, TrackListController TLC, UserController UC) {
         this.models = getNewModels(AC, TC, TLC, UC);
     }
-    @Provides @Singleton
+    //@Provides @Singleton
     private  Model[] getNewModels(ArtistController AC, TrackController TC, TrackListController TLC, UserController UC) {
         return new Model[]{AC.getArtistContainer(),TC.getTrackContainer(), TLC.getTrackListContainer(),UC.getUserContainer()};
     }

@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 @Singleton
-public class TrackListController {
+public class TrackListController implements Controller{
     private Model<TrackList> TrackListContainer;
     private String path;
     private ArrayList<Listener> listeners;
@@ -29,7 +29,7 @@ public class TrackListController {
     // TrackList - 2
     // Track - 1
     // Artist -0
-    private void update(boolean del,int id){
+    public void update(boolean del,int id){
         for (Listener l:listeners
         ) {
             l.somethingChanged(2,del,id);

@@ -3,6 +3,7 @@ package musiclibrary.entities;
 import com.google.common.collect.ImmutableList;
 import java.io.Serializable;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 public class TrackList implements Serializable {
@@ -10,10 +11,10 @@ public class TrackList implements Serializable {
     private final Album album;
     private ImmutableList<Track> tracks;
 
-    public TrackList(int id, Album album, ImmutableList<Track> tracks) {
+    public TrackList(int id, Album album, List<Track> tracks) {
         this.id = id;
         this.album = album;
-        this.tracks = tracks;
+        this.tracks = ImmutableList.copyOf(tracks);
     }
 
     public int getId() {

@@ -18,7 +18,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 @Singleton
-public class UserController {
+public class UserController implements Controller {
     private Model<User> userContainer;
     private String path;
     private ArrayList<Listener> listeners;
@@ -31,7 +31,7 @@ public class UserController {
     // TrackList - 2
     // Track - 1
     // Artist -0
-    private void update(boolean del,int id){
+    public void update(boolean del,int id){
         for (Listener l:listeners
         ) {
             l.somethingChanged(3,del,id);
