@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ArtistController extends  GenericController<Artist> {
-    // private  Model<Artist> container;
 
     private ArtistController() {
     }
@@ -25,14 +24,9 @@ public class ArtistController extends  GenericController<Artist> {
     }
 
     public int add(String name) {
-        int id=0;
-        try {
-            id=getNextId();
-            Artist artist = new Artist(id,name);
-            container.put(id,artist);
-        } catch (NumberFormatException e) {
-            throw e;
-        }
+        int id=getNextId();
+        Artist artist = new Artist(id,name);
+        container.put(id,artist);
         return id;
     }
 
@@ -41,7 +35,7 @@ public class ArtistController extends  GenericController<Artist> {
             container.remove(changedArtistId);
             container.put(changedArtistId,new Artist(changedArtistId,name));
         } catch (Exception e) {
-            throw  e;
+            throw  new RuntimeException("Cant change Artist",e);
         }
     }
 }

@@ -15,7 +15,6 @@ import java.lang.reflect.ParameterizedType;
 
 public class Main {
     public static void main(String[] args) throws IOException,InterruptedException {
-        System.out.println(new File("").getAbsolutePath());
         Injector injector = Guice.createInjector();
         ArtistController artistController = injector.getInstance(ArtistController.class);
         TrackController trackController = injector.getInstance(TrackController.class);
@@ -26,7 +25,7 @@ public class Main {
         int tygaid = artistController.add("Tyga");
         int id= trackController.add("Get Rich", artistController.get(tygaid), 1.22, Genre.Rap);
         int tr2 = trackController.add("Too Rich", artistController.get(tygaid), 3.48, Genre.Rap);
-       // trackController.change(id, "Get Rich", artistController.get(tygaid), 1.22, Genre.Rap);
+        trackController.change(id, "Get Rich", artistController.get(tygaid), 1.22, Genre.Rap);
 
         TrackController trackController1 = new TrackController(saveLoadService.load(ModelTypes.Track));
         System.out.println("Getted:" +  trackController1.get(id));

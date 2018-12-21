@@ -14,31 +14,25 @@ import java.lang.reflect.*;
 public class Model<T> implements Serializable {
     private ArrayList<Listener> listeners;
     private HashMap<Integer, T> map;
-    private HashMap<Integer,T> lastMap;
 
     public void addListener (Listener listener){
         listeners.add(listener);
     }
 
     private void update(){
-      //  if (!lastMap.equals(map)){
-            for (Listener listener:listeners
-            ) {
-                listener.somthingChanged();
-            }
-         //   lastMap=map;
-       // }
+        for (Listener listener:listeners
+        ) {
+            listener.somthingChanged();
+        }
     }
 
     public Model() {
         map = new HashMap<Integer, T>();
-        lastMap = new HashMap<Integer, T>();
         listeners= new ArrayList<Listener>();
     }
 
     public Model(HashMap<Integer, T> map) {
         this.map = map;
-        this.lastMap = map;
     }
 
     public void setMap(HashMap<Integer, T> map) {
@@ -47,7 +41,7 @@ public class Model<T> implements Serializable {
     }
 
     public void put(int id,T item) {
-        if (!map.containsKey(id)) {
+        if (!Objects.equals(map.get(id), item)) {
             map.put(id, item);
             this.update();
         }
@@ -70,21 +64,11 @@ public class Model<T> implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(listeners, map, lastMap);
+        return Objects.hash( map);
     }
-
-      @Override
-        public boolean equals(Object obj) {
-          if (obj == null || obj.getClass() != this.getClass())
-              return false;
-          Field[] thisFields = FieldUtil.getFields(this.map.getClass());
-          for (Field field : thisFields) {
-              try {
-                  FieldUtil.getField(((Model<T>) obj).getClass(), field.getName());
-              } catch (NoSuchFieldException e) {
-                  return false;
-              }
-          }
-          return true;
-      }
+    
+    @Override
+    public boolean equals(Object obj) {
+        return map.equals(obj);
+    }
 }

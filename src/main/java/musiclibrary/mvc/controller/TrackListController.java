@@ -10,8 +10,6 @@ import musiclibrary.mvc.view.Listener;
 
 @Singleton
 public class TrackListController extends GenericController<TrackList> {
-    //private Model<TrackList> container;
-
     private TrackListController() {
     }
 
@@ -20,16 +18,11 @@ public class TrackListController extends GenericController<TrackList> {
         this.container = TrackListContainer;
     }
 
-
     public int add(Album album, ImmutableList<Track> tracks) throws InterruptedException {
         int id=0;
-        try {
-            id=getNextId();
-            TrackList TrackList = new TrackList(id, album,tracks);
-            container.put(id,TrackList);
-        } catch (NumberFormatException e) {
-            throw new RuntimeException("Cant add TrackList");
-        }
+        id=getNextId();
+        TrackList TrackList = new TrackList(id, album,tracks);
+        container.put(id,TrackList);
         return id;
     }
 
@@ -39,7 +32,7 @@ public class TrackListController extends GenericController<TrackList> {
             container.remove(changedTrackListId);
             container.put(changedTrackListId,TrackList);
         } catch (Exception e) {
-            throw new RuntimeException("Cant change TrackList");
+            throw new RuntimeException("Cant change TrackList",e);
         }
     }
 }

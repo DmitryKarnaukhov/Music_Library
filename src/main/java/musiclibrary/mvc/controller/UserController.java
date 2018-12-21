@@ -9,7 +9,6 @@ import musiclibrary.mvc.model.Model;
 
 @Singleton
 public class UserController extends GenericController<User>{
-    // private Model<User> Container;
 
     @Inject
     public UserController(Model<User> userContainer) {
@@ -18,12 +17,9 @@ public class UserController extends GenericController<User>{
 
     public int add(String name, ImmutableList<TrackList> trackLists) throws InterruptedException {
         int id=0;
-        try{
-            id=getNextId();
-            User user = new User(id,name, trackLists);
-            container.put(id,user);
-        }
-        catch (NumberFormatException e){throw new RuntimeException("Cant add User"+id);}
+        id=getNextId();
+        User user = new User(id,name, trackLists);
+        container.put(id,user);
         return id;
     }
 
@@ -32,6 +28,6 @@ public class UserController extends GenericController<User>{
             User user = new User(changedUserId,name, trackLists);
             container.remove(changedUserId);
             container.put(changedUserId,user);
-        }catch (Exception e){throw new RuntimeException("Cant change User"+changedUserId);}
+        }catch (Exception e){throw new RuntimeException("Cant change User"+changedUserId,e);}
     }
 }

@@ -17,7 +17,6 @@ import java.util.HashMap;
 
 @Singleton
 public class TrackController extends GenericController<Track>{
-    // private Model<Track> Container;
 
     private TrackController() {
     }
@@ -29,13 +28,9 @@ public class TrackController extends GenericController<Track>{
 
     public int add(String name, Artist artist, double trackLenght, Genre genre)  {
         int id=0;
-        try {
-            id=getNextId();
-            Track track = new Track(id, name, artist, trackLenght, genre);
-            super.container.put(id,track);
-        }catch (Exception exception){
-            throw new RuntimeException("Cant add track");
-        }
+        id=getNextId();
+        Track track = new Track(id, name, artist, trackLenght, genre);
+        super.container.put(id,track);
         return id;
     }
 
@@ -44,7 +39,7 @@ public class TrackController extends GenericController<Track>{
             super.container.remove(changedTrackId);
             super.container.put(changedTrackId,new Track(changedTrackId,name,artist,trackLenght,genre));
         } catch (Exception e) {
-            throw new RuntimeException("Cant change track");
+            throw new RuntimeException("Cant change track",e);
         }
     }
 }

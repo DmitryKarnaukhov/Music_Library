@@ -26,18 +26,18 @@ public abstract class GenericController<T>{
             try(FileWriter fileWriter = new FileWriter(path,false)){
                 fileWriter.write(0);
             }catch (Exception e){
-                e.getMessage();
+                throw new RuntimeException("Cant write new id=0 in getNextId",e);
             }
         }else{
             try(FileReader fileReader =new FileReader(path)){
                 id=fileReader.read();
             }catch (Exception e){
-                e.getMessage();
+                throw new RuntimeException("Cant read id in getNextId",e);
             }
             try(FileWriter fileWriter = new FileWriter(path,false)){
                 fileWriter.write(id+1);
             }catch (Exception e){
-                e.getMessage();
+                throw new RuntimeException("Cant write next id in getNextId",e);
             }
         }
         return id;
