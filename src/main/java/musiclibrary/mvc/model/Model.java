@@ -33,6 +33,7 @@ public class Model<T> implements Serializable {
         if (obj == null || obj.getClass() != this.getClass())
             return false;
         Field[] thisFields = FieldUtil.getFields(this.map.getClass());
+
         for (Field field : thisFields) {
             try {
                 FieldUtil.getField(((Model<T>)obj).getClass(), field.getName());

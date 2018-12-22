@@ -108,7 +108,7 @@ public class UserController implements Controller {
         return null;
     }
 
-    public Model<User> getUserContainer() {
+    public Model<User> getContainer() {
         return userContainer;
     }
 }

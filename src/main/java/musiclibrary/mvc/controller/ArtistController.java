@@ -106,7 +106,7 @@ public class ArtistController implements Controller {
         return null;
     }
 
-    public Model<Artist> getArtistContainer() {
+    public Model<Artist> getContainer() {
         return ArtistContainer;
     }
 }

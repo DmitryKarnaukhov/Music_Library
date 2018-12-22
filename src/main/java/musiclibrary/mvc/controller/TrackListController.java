@@ -109,7 +109,7 @@ public class TrackListController implements Controller{
         return null;
     }
 
-    public Model<TrackList> getTrackListContainer() {
+    public Model<TrackList> getContainer() {
         return TrackListContainer;
     }
 }

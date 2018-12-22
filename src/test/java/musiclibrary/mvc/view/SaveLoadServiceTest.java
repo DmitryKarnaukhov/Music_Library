@@ -4,14 +4,12 @@ import com.google.common.collect.ImmutableList;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import musiclibrary.entities.*;
-import musiclibrary.mvc.controller.ArtistController;
-import musiclibrary.mvc.controller.TrackController;
-import musiclibrary.mvc.controller.TrackListController;
-import musiclibrary.mvc.controller.UserController;
+import musiclibrary.mvc.controller.*;
 import musiclibrary.mvc.model.Model;
 import static org.junit.Assert.*;
 
 import org.junit.*;
+import org.junit.experimental.theories.DataPoint;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
@@ -30,8 +28,8 @@ public class SaveLoadServiceTest {
     TrackController trackController;
     TrackListController trackListController;
     UserController userController;
-    @DataPoints
-    public static Object[][] testData;// = new Object[][]{{"Model1", "Model2"}};
+    @DataPoint
+    public static Controller[] testControllers;
 
     @Before
     public void doItBeforeTest() throws Exception {
@@ -76,22 +74,32 @@ public class SaveLoadServiceTest {
         } catch (InterruptedException e) {
             throw new Exception(e.getMessage());
         }
-        testData = new Object[][]{
-            { artistController.getArtistContainer(), saveLoadService.load()[0] },
-            { trackController.getTrackContainer(), saveLoadService.load()[1] },
-            { trackListController.getTrackListContainer(), saveLoadService.load()[2] },
-            { userController.getUserContainer(), saveLoadService.load()[3] }
-        };
-
+//        testData = new Object[][]{
+//            { artistController.getContainer(), saveLoadService.load()[0] },
+//            { trackController.getContainer(), saveLoadService.load()[1] },
+//            { trackListController.getContainer(), saveLoadService.load()[2] },
+//            { userController.getContainer(), saveLoadService.load()[3] }
+//        };
+        testControllers = new Controller[]{
+                artistController,
+                trackController,
+                trackListController,
+                userController};
     }
 
     @Theory
-    public void saveLoadParameteraizedTest(final Object... testData) {
-        assertEquals("Message", (Model)testData[0], (Model)testData[1]);
+    public void saveLoadParametrizedTest(final Controller... testControllers) {
+        for (Model etalonModel : saveLoadService.load()) {
+            for (Controller testController : testControllers) {
+                if (etalonModel.getClass() == testController.getContainer().getClass()) {
+                    assertEquals(etalonModel, testController.getContainer());
+                }
+            }
+        }
     }
-//    @After
-//    public void doItAfterTest() {
-//        injector = null;
+//    @Theory
+//    public void saveLoadParameteraizedTest(final Object... testData) {
+//        assertEquals("Message", (Model)testData[0], (Model)testData[1]);
 //    }
 
 
@@ -157,7 +165,7 @@ public class SaveLoadServiceTest {
             throw new Exception(e.getMessage());
         }
 
-        assertEquals(artistController.getArtistContainer(), saveLoadService.load()[0]);
+        assertEquals(artistController.getContainer(), saveLoadService.load()[0]);
     }
 
 
@@ -176,11 +184,11 @@ public class SaveLoadServiceTest {
             throw new Exception(e.getMessage());
         }
 
-        assertEquals(artistController.getArtistContainer(), saveLoadService.load()[0]);
+        assertEquals(artistController.getContainer(), saveLoadService.load()[0]);
 
         artistController.delArtist(0);
 
-        assertEquals(artistController.getArtistContainer(), saveLoadService.load()[0]);
+        assertEquals(artistController.getContainer(), saveLoadService.load()[0]);
     }
 
     @Test
@@ -200,7 +208,7 @@ public class SaveLoadServiceTest {
             throw new Exception(e.getMessage());
         }
 
-        assertEquals(trackController.getTrackContainer(), saveLoadService.load()[1]);
+        assertEquals(trackController.getContainer(), saveLoadService.load()[1]);
     }
 
     @Test
@@ -223,7 +231,7 @@ public class SaveLoadServiceTest {
             throw new Exception(e.getMessage());
         }
 
-        assertEquals(trackListController.getTrackListContainer(), saveLoadService.load()[2]);
+        assertEquals(trackListController.getContainer(), saveLoadService.load()[2]);
     }
 
     @Test
@@ -249,7 +257,7 @@ public class SaveLoadServiceTest {
             throw new Exception(e.getMessage());
         }
 
-        assertEquals(userController.getUserContainer(), saveLoadService.load()[3]);
+        assertEquals(userController.getContainer(), saveLoadService.load()[3]);
     }
 
     @Test

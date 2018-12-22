@@ -108,7 +108,7 @@ public class TrackController implements Controller {
         return null;
     }
 
-    public Model<Track> getTrackContainer() {
+    public Model<Track> getContainer() {
         return trackContainer;
     }
 }
