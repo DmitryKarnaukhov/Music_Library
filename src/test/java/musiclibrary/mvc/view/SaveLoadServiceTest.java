@@ -14,7 +14,8 @@ import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
-
+import musiclibrary.mvc.model.ModelTypes;
+import org.junit.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -134,14 +135,17 @@ public class SaveLoadServiceTest {
         TrackController trackController = new TrackController(trackContainer);
         TrackListController trackListController = new TrackListController(trackListContainer);
         UserController userController = new UserController(userContainer);
-        SaveLoadService saveLoadService = new SaveLoadService(artistController, trackController, trackListController, userController);
-        saveLoadService.save(artistContainer, trackContainer, trackListContainer, userContainer);
-        Model[] models = saveLoadService.load();
-        assertEquals(models.length, NUMBER_OF_MODELS);
-        assertEquals(models[0].getMap().get(0), artistContainer.getMap().get(0));
-        assertEquals(models[1].getMap().get(0), trackContainer.getMap().get(0));
-        assertEquals(models[2].getMap().get(0), trackListContainer.getMap().get(0));
-        assertEquals(models[3].getMap().get(0), userContainer.getMap().get(0));
+        SaveLoadService saveLoadService = new SaveLoadService(artistController.getContainer(), trackController.getContainer(), trackListController.getContainer(), userController.getContainer());
+        saveLoadService.save(artistController.getContainer(),ModelTypes.Artist);
+        saveLoadService.saveAll();
+        Model<Artist> artistModel = saveLoadService.load(ModelTypes.Artist);
+        Model<Track> trackModel = saveLoadService.load(ModelTypes.Track);
+        Model<TrackList> trackListModel = saveLoadService.load(ModelTypes.TrackList);
+        Model<User> userModel = saveLoadService.load(ModelTypes.User);
+        assertEquals(artistModel.getItem(0), artistContainer.getItem(0));
+        assertEquals(trackModel.getItem(0), trackContainer.getItem(0));
+        assertEquals(trackListModel.getItem(0), trackListContainer.getItem(0));
+        assertEquals(userModel.getItem(0), userContainer.getItem(0));
     }
 
     @Test
@@ -154,18 +158,13 @@ public class SaveLoadServiceTest {
 
         SaveLoadService saveLoadService = injector.getInstance(SaveLoadService.class);
 
-        artistController.addListener(saveLoadService);
-        trackController.addListener(saveLoadService);
-        trackListController.addListener(saveLoadService);
-        userController.addListener(saveLoadService);
-
         try {
-            artistController.addArtist("Default artist");
-        } catch (InterruptedException e) {
+            artistController.add("Default artist");
+        } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
 
-        assertEquals(artistController.getContainer(), saveLoadService.load()[0]);
+        assertEquals(artistController.getContainer(), saveLoadService.load(ModelTypes.Artist));
     }
 
 
@@ -176,19 +175,17 @@ public class SaveLoadServiceTest {
 
         SaveLoadService saveLoadService = injector.getInstance(SaveLoadService.class);
 
-        artistController.addListener(saveLoadService);
-
         try {
-            artistController.addArtist("Default artist");
-        } catch (InterruptedException e) {
+            artistController.add("Default artist");
+        } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
 
-        assertEquals(artistController.getContainer(), saveLoadService.load()[0]);
+        assertEquals(artistController.getContainer(), saveLoadService.load(ModelTypes.Artist));
 
-        artistController.delArtist(0);
+        artistController.del(0);
 
-        assertEquals(artistController.getContainer(), saveLoadService.load()[0]);
+        assertEquals(artistController.getContainer(), saveLoadService.load(ModelTypes.Artist));
     }
 
     @Test
@@ -198,27 +195,23 @@ public class SaveLoadServiceTest {
 
         SaveLoadService saveLoadService = injector.getInstance(SaveLoadService.class);
 
-        trackController.addListener(saveLoadService);
-
         Artist defaultArtist = new Artist(0,"Default artist");
 
         try {
-            trackController.addTrack("Default track", defaultArtist, 3.0, Genre.Pop);
-        } catch (InterruptedException e) {
+            trackController.add("Default track", defaultArtist, 3.0, Genre.Pop);
+        } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
 
-        assertEquals(trackController.getContainer(), saveLoadService.load()[1]);
+        assertEquals(trackController.getContainer(), saveLoadService.load(ModelTypes.Track));
     }
 
     @Test
     public void trackListSaveLoadTest() throws Exception {
-//        Injector injector = Guice.createInjector();
+        Injector injector = Guice.createInjector();
         TrackListController trackListController = injector.getInstance(TrackListController.class);
 
         SaveLoadService saveLoadService = injector.getInstance(SaveLoadService.class);
-
-        trackListController.addListener(saveLoadService);
 
         Artist defaultArtist = new Artist(0, "Default artist");
         Album defaultAlbum = new Album(0, "Default album");
@@ -226,12 +219,12 @@ public class SaveLoadServiceTest {
         trackList.add(new Track(0, "Default track", defaultArtist, 3.0, Genre.Pop));
 
         try {
-            trackListController.addTrackList(defaultAlbum, trackList);
+            trackListController.add(defaultAlbum,ImmutableList.copyOf(trackList));
         } catch (InterruptedException e) {
             throw new Exception(e.getMessage());
         }
 
-        assertEquals(trackListController.getContainer(), saveLoadService.load()[2]);
+        assertEquals(trackListController.getContainer(), saveLoadService.load(ModelTypes.TrackList));
     }
 
     @Test
@@ -241,7 +234,6 @@ public class SaveLoadServiceTest {
 
         SaveLoadService saveLoadService = injector.getInstance(SaveLoadService.class);
 
-        userController.addListener(saveLoadService);
 
         LinkedList<Track> tracks = new LinkedList<>();
         Artist defaultArtist = new Artist(0, "Default artist");
@@ -252,12 +244,12 @@ public class SaveLoadServiceTest {
         defaultTrackLists.add(defaultTrackList);
 
         try {
-            userController.addUser("Default user", defaultTrackLists);
+            userController.add("Default user", ImmutableList.copyOf(defaultTrackLists));
         } catch (InterruptedException e) {
             throw new Exception(e.getMessage());
         }
 
-        assertEquals(userController.getContainer(), saveLoadService.load()[3]);
+        assertEquals(userController.getContainer(), saveLoadService.load(ModelTypes.User));
     }
 
     @Test
@@ -270,10 +262,6 @@ public class SaveLoadServiceTest {
 
         SaveLoadService saveLoadService = injector.getInstance(SaveLoadService.class);
 
-        artistController.addListener(saveLoadService);
-        trackController.addListener(saveLoadService);
-        trackListController.addListener(saveLoadService);
-        userController.addListener(saveLoadService);
     }
 
 }
