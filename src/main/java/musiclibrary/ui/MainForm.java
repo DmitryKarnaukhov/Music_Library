@@ -19,7 +19,8 @@ public class MainForm extends JFrame {
 
     private void init() {
         mainPane = (JPanel) this.getContentPane();
-        mainPane.setLayout(new BorderLayout());this.setVisible(true);
+        mainPane.setLayout(new BorderLayout());
+        this.setVisible(true);
         chooseSourcePanel = new JPanel(new BorderLayout());
         mainPane.add(chooseSourcePanel, BorderLayout.NORTH);
         JScrollPane contentScrollPanel = new JScrollPane();
@@ -41,8 +42,9 @@ public class MainForm extends JFrame {
         trackHeadLabel = new JLabel("TRACK");
         artistHeadLabel = new JLabel("ARTIST");
         JPanel topHorizontalPanel = new JPanel();
-        BoxLayout topHorizontalPanelLayout = new BoxLayout(topHorizontalPanel, BoxLayout.LINE_AXIS);
-        topHorizontalPanel.setLayout(topHorizontalPanelLayout);
+        GridLayout entityGrid = new GridLayout(1, 4);
+//        BoxLayout topHorizontalPanelLayout = new BoxLayout(topHorizontalPanel, BoxLayout.LINE_AXIS);
+        topHorizontalPanel.setLayout(entityGrid);
         topHorizontalPanel.add(userHeadLabel);
         topHorizontalPanel.add(trackListHeadLabel);
         topHorizontalPanel.add(trackHeadLabel);
