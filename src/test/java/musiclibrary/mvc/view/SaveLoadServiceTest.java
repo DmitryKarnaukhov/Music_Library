@@ -1,8 +1,10 @@
 package musiclibrary.mvc.view;
 
 import com.google.common.collect.ImmutableList;
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.name.Names;
 import musiclibrary.entities.*;
 import musiclibrary.mvc.controller.*;
 import musiclibrary.mvc.model.Model;
@@ -19,7 +21,15 @@ import java.util.ArrayList;
 @RunWith(Theories.class)
 public class SaveLoadServiceTest {
 
-    private static Injector injector = Guice.createInjector();
+    private static Injector injector = Guice.createInjector(new AbstractModule() {
+        @Override
+        protected void configure() {
+            bind(ModelTypes.class).annotatedWith(Names.named("Track")).toInstance(ModelTypes.Track);
+            bind(ModelTypes.class).annotatedWith(Names.named("Track")).toInstance(ModelTypes.Track);
+            bind(ModelTypes.class).annotatedWith(Names.named("Track")).toInstance(ModelTypes.Track);
+            bind(ModelTypes.class).annotatedWith(Names.named("Track")).toInstance(ModelTypes.Track);
+        }
+    });
     @DataPoint
     public static ArtistController artistController = injector.getInstance(ArtistController.class);
     @DataPoint
@@ -75,7 +85,7 @@ public class SaveLoadServiceTest {
             default:
                 throw new RuntimeException("No current model found");
         }
-
+// todo: controller у метод геттер на модел тайп
         assertEquals(testModel, loadedModel);
     }
 //

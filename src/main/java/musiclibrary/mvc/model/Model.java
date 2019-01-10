@@ -66,9 +66,15 @@ public class Model<T> implements Serializable {
     public int hashCode() {
         return Objects.hash( map);
     }
-    
+
     @Override
-    public boolean equals(Object obj) {
-        return map.equals(obj);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Model<?> model = (Model<?>) o;
+        return com.google.common.base.Objects.equal(map, model.map);
     }
+
+    
+
 }

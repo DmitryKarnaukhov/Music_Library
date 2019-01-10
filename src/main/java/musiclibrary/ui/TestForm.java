@@ -1,7 +1,14 @@
 package musiclibrary.ui;
 
+import javax.swing.*;
+
 public class TestForm {
     public static void main(String[] args) {
-        MainFormVer2 mainForm = new MainFormVer2();
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new MainFormVer2();
+            }
+        });
     }
 }
