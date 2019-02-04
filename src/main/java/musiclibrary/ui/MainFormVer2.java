@@ -1,13 +1,17 @@
 package musiclibrary.ui;
 
+import musiclibrary.entities.Track;
+import musiclibrary.ui.tables.ShowResultTable;
+import musiclibrary.ui.tables.collnames.ReflectionCollNames;
+import musiclibrary.ui.uipanels.AddDeletePanel;
 import musiclibrary.ui.uipanels.HeadLabelPanel;
-import musiclibrary.ui.uipanels.TableCardPanel;
+import musiclibrary.ui.uipanels.MainTableCardPanel;
+import musiclibrary.ui.uipanels.ResultPanel;
 
 import javax.swing.*;
 import java.awt.*;
 
 import static javax.swing.GroupLayout.Alignment.BASELINE;
-import static javax.swing.GroupLayout.Alignment.CENTER;
 import static javax.swing.GroupLayout.Alignment.LEADING;
 
 public class MainFormVer2 extends JFrame {
@@ -15,23 +19,65 @@ public class MainFormVer2 extends JFrame {
     private GroupLayout layout;
     private Dimension screenSize;
     private HeadLabelPanel headLabelPanel;
-    private TableCardPanel tableCardPanel;
+    private AddDeletePanel addDeletePanel;
+    private MainTableCardPanel mainTableCardPanel;
+    private ResultPanel resultPanel;
+
+    JLabel idLabel = new JLabel("Id: "),
+            resultIdLabel = new JLabel("1"),
+            nameLabel = new JLabel("Name: "),
+            resultNameLabel = new JLabel("1");
+    String[] collNames = ReflectionCollNames.getEntityFieldNames(Track.class);
+    JTable resultTable = new JTable(new Object[][] { { "1", "2", "1", "2", "1" }, { "1", "2", "1", "2", "1" } }, collNames);
+    JPanel panel = new JPanel();
 
     public MainFormVer2() {
         init();
-        tableCardPanel = new TableCardPanel();
-        headLabelPanel = new HeadLabelPanel(tableCardPanel);
+        mainTableCardPanel = new MainTableCardPanel();
+        headLabelPanel = new HeadLabelPanel(mainTableCardPanel);
+        addDeletePanel = new AddDeletePanel(mainTableCardPanel);
+        resultPanel = new ResultPanel();
+        panel.add(resultTable);
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
 
         layout.setHorizontalGroup(layout.createParallelGroup(LEADING)
                                         .addComponent(headLabelPanel)
-                                        .addComponent(tableCardPanel)
+                                        .addComponent(addDeletePanel)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(mainTableCardPanel)
+                                           .addComponent(resultPanel)
+//                                                .addGroup(layout.createParallelGroup()
+//                                                        .addGroup(layout.createSequentialGroup()
+//                                                                .addComponent(idLabel)
+//                                                                .addComponent(resultIdLabel)
+//                                                        )
+//                                                        .addGroup(layout.createSequentialGroup()
+//                                                                .addComponent(nameLabel)
+//                                                                .addComponent(resultNameLabel)
+//                                                        )
+//                                                        .addComponent(panel)
+//                                                )
+                                        )
+
         );
 
         layout.setVerticalGroup(layout.createSequentialGroup()
                         .addComponent(headLabelPanel)
-                        .addComponent(tableCardPanel)
+                        .addComponent(addDeletePanel)
+                        .addGroup(layout.createParallelGroup()
+                                .addComponent(mainTableCardPanel)
+                            .addComponent(resultPanel)
+//                                .addGroup(layout.createParallelGroup(LEADING)
+//                                        .addComponent(idLabel)
+//                                        .addComponent(resultIdLabel)
+//                                )
+//                                .addGroup(layout.createParallelGroup()
+//                                        .addComponent(nameLabel)
+//                                        .addComponent(resultNameLabel)
+//                                )
+//                                .addComponent(panel)
+                        )
         );
     }
 

@@ -8,6 +8,7 @@ public class TestForm {
             @Override
             public void run() {
                 new MainFormVer2();
+//                new MainForm();
             }
         });
     }

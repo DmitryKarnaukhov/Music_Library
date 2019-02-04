@@ -6,12 +6,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import static musiclibrary.ui.uiconstants.FontConstants.*;
 
-public class HeadLabelMouseListener implements MouseListener {
+import static musiclibrary.ui.uiconstants.FontConstants.HEAD_LABEL_OUT_FONT_SIZE_K;
+import static musiclibrary.ui.uiconstants.FontConstants.HEAD_LABEL_OVER_FONT_SIZE_K;
+
+public class AddDeleteSearchMouseListener implements MouseListener {
     private MainTableCardPanel mainTableCardPanel;
 
-    public HeadLabelMouseListener(MainTableCardPanel mainTableCardPanel) {
+    public AddDeleteSearchMouseListener(MainTableCardPanel mainTableCardPanel) {
         this.mainTableCardPanel = mainTableCardPanel;
     }
 

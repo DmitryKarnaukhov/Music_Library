@@ -9,30 +9,30 @@ import java.awt.*;
 import static musiclibrary.ui.uiconstants.FontConstants.HEAD_LABEL_OUT_FONT_SIZE_K;
 
 public class HeadLabelPanel extends JPanel {
-    public TableCardPanel tableCardPanel;
+    public MainTableCardPanel mainTableCardPanel;
     private JLabel userHeadLabel,
                    trackListHeadLabel,
                    trackHeadLabel,
                    artistHeadLabel;
     private FlowLayout layout;
-    public HeadLabelPanel(TableCardPanel tableCardPanel) {
-        this.tableCardPanel = tableCardPanel;
+    public HeadLabelPanel(MainTableCardPanel mainTableCardPanel) {
+        this.mainTableCardPanel = mainTableCardPanel;
         layout = new FlowLayout(FlowLayout.CENTER, 50, 10);
         setLayout(layout);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int fontSize = screenSize.height / HEAD_LABEL_OUT_FONT_SIZE_K;
         Font labelFont = new Font(Font.SANS_SERIF, Font.BOLD + Font.ITALIC, fontSize);
-        HeadLabelMouseListener headLabelMouseListener = new HeadLabelMouseListener(tableCardPanel);
-        userHeadLabel = new JLabel(ENTITY_NAME_USER, SwingConstants.CENTER);
+        HeadLabelMouseListener headLabelMouseListener = new HeadLabelMouseListener(mainTableCardPanel);
+        userHeadLabel = new JLabel(ENTITY_NAME_USER, new ImageIcon("src/img/user.jpg"), SwingConstants.CENTER);
         userHeadLabel.setFont(labelFont);
         userHeadLabel.addMouseListener(headLabelMouseListener);
-        trackListHeadLabel = new JLabel(ENTITY_NAME_TRACKLIST, SwingConstants.CENTER);
+        trackListHeadLabel = new JLabel(ENTITY_NAME_TRACKLIST, new ImageIcon("src/img/tracklist.png"), SwingConstants.CENTER);
         trackListHeadLabel.setFont(labelFont);
         trackListHeadLabel.addMouseListener(headLabelMouseListener);
-        trackHeadLabel = new JLabel(ENTITY_NAME_TRACK, SwingConstants.CENTER);
+        trackHeadLabel = new JLabel(ENTITY_NAME_TRACK, new ImageIcon("src/img/track.jpg"), SwingConstants.CENTER);
         trackHeadLabel.setFont(labelFont);
         trackHeadLabel.addMouseListener(headLabelMouseListener);
-        artistHeadLabel = new JLabel(ENTITY_NAME_ARTIST, SwingConstants.CENTER);
+        artistHeadLabel = new JLabel(ENTITY_NAME_ARTIST, new ImageIcon("src/img/artist.png"), SwingConstants.CENTER);
         artistHeadLabel.setFont(labelFont);
         artistHeadLabel.addMouseListener(headLabelMouseListener);
         add(userHeadLabel);

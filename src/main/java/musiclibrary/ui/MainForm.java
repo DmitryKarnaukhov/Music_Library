@@ -1,66 +1,81 @@
 package musiclibrary.ui;
 
+import musiclibrary.ui.tables.ShowResultTable;
+import musiclibrary.ui.uipanels.AddDeletePanel;
+import musiclibrary.ui.uipanels.HeadLabelPanel;
+import musiclibrary.ui.uipanels.MainTableCardPanel;
+import musiclibrary.ui.uipanels.ResultPanel;
+
 import javax.swing.*;
-import javax.swing.text.LayoutQueue;
 import java.awt.*;
 
+import static javax.swing.GroupLayout.Alignment.BASELINE;
+import static javax.swing.GroupLayout.Alignment.LEADING;
+
 public class MainForm extends JFrame {
-    private JPanel mainPane,
-                   contentPanel,
-                   chooseSourcePanel;
-    private JLabel userHeadLabel,
-                   trackListHeadLabel,
-                   trackHeadLabel,
-                   artistHeadLabel;
+    //    private GridLayout layout;
+    private GroupLayout layout;
+    private Dimension screenSize;
+    //private HeadLabelPanel headLabelPanel;
+    //private AddDeletePanel addDeletePanel;
+    //private MainTableCardPanel mainTableCardPanel;
+//    private ResultPanel resultPanel;
 
     public MainForm() {
         init();
+//        mainTableCardPanel = new MainTableCardPanel();
+//        headLabelPanel = new HeadLabelPanel(mainTableCardPanel);
+//        addDeletePanel = new AddDeletePanel(mainTableCardPanel);
+//        resultPanel = new ResultPanel();
+        JLabel l1 = new JLabel("Label 1");
+        JLabel l2 = new JLabel("Label 2");
+        JLabel l3 = new JLabel("Label 3");
+        JLabel l4 = new JLabel("Label 4");
+        JLabel l5 = new JLabel("Label 5");
+        JLabel l6 = new JLabel("Label 6");
+        JLabel l7 = new JLabel("Label 7");
+        JLabel l8 = new JLabel("Label 8");
+        JLabel l9 = new JLabel("Label 9");
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+
+        layout.setHorizontalGroup(layout.createParallelGroup(LEADING)
+                .addGroup(layout.createSequentialGroup()
+                        .addComponent(l1)
+                        .addComponent(l2)
+                )
+                .addGroup(layout.createSequentialGroup()
+                        .addComponent(l3)
+                        .addComponent(l4)
+                )
+                .addComponent(l5)
+        );
+
+        layout.setVerticalGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup()
+                        .addComponent(l1)
+                        .addComponent(l2)
+                )
+                .addGroup(layout.createParallelGroup()
+                        .addComponent(l3)
+                        .addComponent(l4)
+                )
+                .addComponent(l5)
+        );
     }
 
     private void init() {
-        mainPane = (JPanel) this.getContentPane();
-        mainPane.setLayout(new BorderLayout());
-        this.setVisible(true);
-        chooseSourcePanel = new JPanel(new BorderLayout());
-        mainPane.add(chooseSourcePanel, BorderLayout.NORTH);
-        JScrollPane contentScrollPanel = new JScrollPane();
-        contentPanel = new JPanel(new BorderLayout());
-        contentPanel.add(contentScrollPanel, BorderLayout.NORTH);
-
+        setVisible(true);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//        layout = new GridLayout(2,1);
+        layout = new GroupLayout(getContentPane());
+        setLayout(layout);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension screenSize = toolkit.getScreenSize();
+        screenSize = toolkit.getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
         this.setSize(new Dimension(screenWidth / 2, screenHeight / 2));
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.setTitle("Music Library");
-
-        enableEvents(AWTEvent.WINDOW_EVENT_MASK);
-
-        userHeadLabel = new JLabel("USER");
-        trackListHeadLabel = new JLabel("TRACKLIST");
-        trackHeadLabel = new JLabel("TRACK");
-        artistHeadLabel = new JLabel("ARTIST");
-        JPanel topHorizontalPanel = new JPanel();
-        GridLayout entityGrid = new GridLayout(1, 4);
-//        BoxLayout topHorizontalPanelLayout = new BoxLayout(topHorizontalPanel, BoxLayout.LINE_AXIS);
-        topHorizontalPanel.setLayout(entityGrid);
-        topHorizontalPanel.add(userHeadLabel);
-        topHorizontalPanel.add(trackListHeadLabel);
-        topHorizontalPanel.add(trackHeadLabel);
-        topHorizontalPanel.add(artistHeadLabel);
-        chooseSourcePanel.add(topHorizontalPanel);
-
-        Font topMenuFont = userHeadLabel.getFont();
-        topMenuFont = new Font(topMenuFont.getName(), Font.PLAIN, 50);
-        Color topMenuColor = new Color(201, 42, 57);
-        userHeadLabel.setFont(topMenuFont);
-        userHeadLabel.setForeground(topMenuColor);
-        trackListHeadLabel.setFont(topMenuFont);
-        trackListHeadLabel.setForeground(topMenuColor);
-        trackHeadLabel.setFont(topMenuFont);
-        trackHeadLabel.setForeground(topMenuColor);
-        artistHeadLabel.setFont(topMenuFont);
-        artistHeadLabel.setForeground(topMenuColor);
+        setTitle("Music Library");
     }
 }
