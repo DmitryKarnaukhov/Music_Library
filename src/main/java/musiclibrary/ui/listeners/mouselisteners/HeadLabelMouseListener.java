@@ -1,6 +1,9 @@
 package musiclibrary.ui.listeners.mouselisteners;
 
+import musiclibrary.ui.uipanels.AddDeletePanel;
 import musiclibrary.ui.uipanels.MainTableCardPanel;
+import musiclibrary.ui.uipanels.MainTablePanel;
+import musiclibrary.ui.uipanels.ResultCardPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,10 +12,10 @@ import java.awt.event.MouseListener;
 import static musiclibrary.ui.uiconstants.FontConstants.*;
 
 public class HeadLabelMouseListener implements MouseListener {
-    private MainTableCardPanel mainTableCardPanel;
+    private MainTablePanel mainTablePanel;
 
-    public HeadLabelMouseListener(MainTableCardPanel mainTableCardPanel) {
-        this.mainTableCardPanel = mainTableCardPanel;
+    public HeadLabelMouseListener(MainTablePanel mainTablePanel) {
+        this.mainTablePanel = mainTablePanel;
     }
 
     @Override
@@ -28,7 +31,8 @@ public class HeadLabelMouseListener implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         String labelText = ((JLabel)e.getComponent()).getText();
-        ((CardLayout) mainTableCardPanel.getLayout()).show(mainTableCardPanel, labelText);
+//        ((CardLayout) mainTableCardPanel.getLayout()).show(mainTableCardPanel, labelText);
+        mainTablePanel.addTable(labelText);
     }
 
     @Override

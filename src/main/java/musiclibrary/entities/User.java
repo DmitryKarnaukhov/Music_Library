@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public class User implements Serializable {
+public class User extends Entity implements Serializable {
     private final int id;
     private final String name;
     private final ImmutableList<TrackList> trackLists;
@@ -25,6 +25,9 @@ public class User implements Serializable {
     }
     public TrackList getTrackList(int index) {
         return trackLists.get(index);
+    }
+    public ImmutableList<TrackList> getTrackLists() {
+        return trackLists;
     }
 
     @Override

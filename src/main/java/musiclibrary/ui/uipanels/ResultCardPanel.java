@@ -1,18 +1,41 @@
 package musiclibrary.ui.uipanels;
 
-import musiclibrary.entities.Artist;
-import musiclibrary.entities.Track;
-import musiclibrary.entities.TrackList;
-import musiclibrary.entities.User;
-import musiclibrary.ui.tables.MainDataTable;
-import musiclibrary.ui.tables.collnames.ReflectionCollNames;
-import musiclibrary.ui.uiconstants.ActionNames;
+import musiclibrary.ui.uipanels.addpanels.AddArtistPanel;
+import musiclibrary.ui.uipanels.addpanels.AddTrackListPanel;
+import musiclibrary.ui.uipanels.addpanels.AddTrackPanel;
+import musiclibrary.ui.uipanels.addpanels.AddUserPanel;
+import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.TableModel;
 import java.awt.*;
-import static musiclibrary.ui.uiconstants.EntityNames.*;
+
+import static musiclibrary.ui.uiconstants.ActionNames.*;
+
+public class ResultCardPanel extends JPanel {
+    private CardLayout layout;
+    private JPanel addUserPanel,
+                   addTrackPanel,
+                   addTrackListPanel,
+                   addArtistPanel,
+                   searchUserPanel,
+                   searchTrackPanel,
+                   searchTrackListPanel,
+                   searchArtistPanel;
+
+    public ResultCardPanel() {
+        layout = new CardLayout();
+        setLayout(layout);
+        addUserPanel = new AddUserPanel();
+        addTrackPanel = new AddTrackPanel();
+        addTrackListPanel = new AddTrackListPanel();
+        addArtistPanel = new AddArtistPanel();
+        add(ACTION_NAME_ADD_USER, addUserPanel);
+        add(ACTION_NAME_ADD_ARTIST, addArtistPanel);
+        add(ACTION_NAME_ADD_TRACK, addTrackPanel);
+        add(ACTION_NAME_ADD_TRACKLIST, addTrackListPanel);
+    }
+}
+/*
 
 public class MainTableCardPanel extends JPanel {
     private CardLayout layout;
@@ -51,22 +74,21 @@ public class MainTableCardPanel extends JPanel {
         };
         userTable = new MainDataTable(userTableData, userCollNames);
         userScroll = new JScrollPane(userTable);
-        userScroll.setName(ENTITY_NAME_USER);
+
         CellEditor cellEditor = new DefaultCellEditor(new JTextField());
         //userTable.getColumnModel().getColumn(0).setMaxWidth(200);
         //userTable.getColumnModel().getColumn(0).setPreferredWidth(100);
         trackTable = new MainDataTable(trackTableData, trackCollNames);
         trackScroll = new JScrollPane(trackTable);
-        trackScroll.setName(ENTITY_NAME_TRACK);
         trackListTable = new MainDataTable(trackListTableData, trackListCollNames);
         trackListScroll = new JScrollPane(trackListTable);
-        trackListScroll.setName(ENTITY_NAME_TRACKLIST);
         artistTable = new MainDataTable(artistTableData, artistCollNames);
         artistScroll = new JScrollPane(artistTable);
-        artistScroll.setName(ENTITY_NAME_ARTIST);
         add(ENTITY_NAME_USER, userScroll);
         add(ENTITY_NAME_TRACK, trackScroll);
         add(ENTITY_NAME_TRACKLIST, trackListScroll);
         add(ENTITY_NAME_ARTIST, artistScroll);
     }
 }
+
+* */

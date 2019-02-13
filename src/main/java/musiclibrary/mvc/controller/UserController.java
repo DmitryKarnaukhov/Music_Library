@@ -18,7 +18,7 @@ public class UserController extends GenericController<User>{
     public int add(String name, ImmutableList<TrackList> trackLists) throws InterruptedException {
         int id=0;
         id=getNextId();
-        User user = new User(id,name, trackLists);
+        User user = new User(id, name, trackLists);
         container.put(id,user);
         return id;
     }

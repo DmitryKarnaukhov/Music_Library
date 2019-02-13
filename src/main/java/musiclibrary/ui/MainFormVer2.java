@@ -3,10 +3,8 @@ package musiclibrary.ui;
 import musiclibrary.entities.Track;
 import musiclibrary.ui.tables.ShowResultTable;
 import musiclibrary.ui.tables.collnames.ReflectionCollNames;
-import musiclibrary.ui.uipanels.AddDeletePanel;
-import musiclibrary.ui.uipanels.HeadLabelPanel;
-import musiclibrary.ui.uipanels.MainTableCardPanel;
-import musiclibrary.ui.uipanels.ResultPanel;
+import musiclibrary.ui.uipanels.*;
+import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,13 +13,13 @@ import static javax.swing.GroupLayout.Alignment.BASELINE;
 import static javax.swing.GroupLayout.Alignment.LEADING;
 
 public class MainFormVer2 extends JFrame {
-//    private GridLayout layout;
-    private GroupLayout layout;
+//    private GroupLayout layout;
+    private MigLayout layout;
     private Dimension screenSize;
     private HeadLabelPanel headLabelPanel;
     private AddDeletePanel addDeletePanel;
     private MainTableCardPanel mainTableCardPanel;
-    private ResultPanel resultPanel;
+    private ResultCardPanel resultCardPanel;
 
     JLabel idLabel = new JLabel("Id: "),
             resultIdLabel = new JLabel("1"),
@@ -34,58 +32,42 @@ public class MainFormVer2 extends JFrame {
     public MainFormVer2() {
         init();
         mainTableCardPanel = new MainTableCardPanel();
-        headLabelPanel = new HeadLabelPanel(mainTableCardPanel);
-        addDeletePanel = new AddDeletePanel(mainTableCardPanel);
-        resultPanel = new ResultPanel();
+        resultCardPanel = new ResultCardPanel();
+//        headLabelPanel = new HeadLabelPanel(mainTableCardPanel);
+//        addDeletePanel = new AddDeletePanel(mainTableCardPanel, resultCardPanel);
         panel.add(resultTable);
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
-
-        layout.setHorizontalGroup(layout.createParallelGroup(LEADING)
-                                        .addComponent(headLabelPanel)
-                                        .addComponent(addDeletePanel)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(mainTableCardPanel)
-                                           .addComponent(resultPanel)
-//                                                .addGroup(layout.createParallelGroup()
-//                                                        .addGroup(layout.createSequentialGroup()
-//                                                                .addComponent(idLabel)
-//                                                                .addComponent(resultIdLabel)
-//                                                        )
-//                                                        .addGroup(layout.createSequentialGroup()
-//                                                                .addComponent(nameLabel)
-//                                                                .addComponent(resultNameLabel)
-//                                                        )
-//                                                        .addComponent(panel)
-//                                                )
-                                        )
-
-        );
-
-        layout.setVerticalGroup(layout.createSequentialGroup()
-                        .addComponent(headLabelPanel)
-                        .addComponent(addDeletePanel)
-                        .addGroup(layout.createParallelGroup()
-                                .addComponent(mainTableCardPanel)
-                            .addComponent(resultPanel)
-//                                .addGroup(layout.createParallelGroup(LEADING)
-//                                        .addComponent(idLabel)
-//                                        .addComponent(resultIdLabel)
-//                                )
-//                                .addGroup(layout.createParallelGroup()
-//                                        .addComponent(nameLabel)
-//                                        .addComponent(resultNameLabel)
-//                                )
-//                                .addComponent(panel)
-                        )
-        );
+//        layout.setAutoCreateGaps(true);
+//        layout.setAutoCreateContainerGaps(true);
+//
+//        layout.setHorizontalGroup(layout.createParallelGroup(LEADING)
+//                                        .addComponent(headLabelPanel)
+//                                        .addComponent(addDeletePanel)
+//                                        .addGroup(layout.createSequentialGroup()
+//                                                .addComponent(mainTableCardPanel)
+//                                           .addComponent(resultCardPanel)
+//                                        )
+//
+//        );
+//
+        add(headLabelPanel, "span");
+        add(addDeletePanel, "wrap");
+        add(mainTableCardPanel);
+        add(resultCardPanel);
+//        layout.setVerticalGroup(layout.createSequentialGroup()
+//                        .addComponent(headLabelPanel)
+//                        .addComponent(addDeletePanel)
+//                        .addGroup(layout.createParallelGroup()
+//                                .addComponent(mainTableCardPanel)
+//                            .addComponent(resultCardPanel)
+//                        )
+//        );
     }
 
     private void init() {
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//        layout = new GridLayout(2,1);
-        layout = new GroupLayout(getContentPane());
+//        layout = new GroupLayout(getContentPane());
+        layout = new MigLayout();
         setLayout(layout);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         screenSize = toolkit.getScreenSize();

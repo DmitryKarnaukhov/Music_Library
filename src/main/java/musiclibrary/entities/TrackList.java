@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class TrackList implements Serializable {
+public class TrackList extends Entity implements Serializable {
     private final int id;
     private final Album album;
     private ImmutableList<Track> tracks;

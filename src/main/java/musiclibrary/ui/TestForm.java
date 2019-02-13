@@ -7,8 +7,9 @@ public class TestForm {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new MainFormVer2();
+//                new MainFormVer2();
 //                new MainForm();
+                new MainFormVer3();
             }
         });
     }

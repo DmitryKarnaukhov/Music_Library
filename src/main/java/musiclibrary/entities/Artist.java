@@ -3,7 +3,8 @@ package musiclibrary.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Artist implements Serializable {
+public class Artist extends Entity
+        implements Serializable {
     private final int id;
     private final String name;
 

@@ -3,7 +3,7 @@ package musiclibrary.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Track implements Serializable {
+public class Track extends Entity implements Serializable {
     private final int id;
     private final String name;
     private final Artist artist;
@@ -11,13 +11,13 @@ public class Track implements Serializable {
     private final Genre genre;
 
     public Track(int id, String name, Artist artist,
-                 double trackLenght, Genre genre) {
+                 double trackLength, Genre genre) {
         this.id = id;
         this.name = name;
         this.artist = artist;
-        if (trackLenght <= 0)
+        if (trackLength <= 0)
             throw new NumberFormatException("Недопустимое значение длины трека");
-        this.trackLenght = trackLenght;
+        this.trackLenght = trackLength;
         this.genre = genre;
     }
 
