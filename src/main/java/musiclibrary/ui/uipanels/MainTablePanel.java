@@ -67,8 +67,6 @@ public class MainTablePanel extends JPanel{
         userScroll = new JScrollPane(userTable);
         userScroll.setName(ENTITY_NAME_USER);
         CellEditor cellEditor = new DefaultCellEditor(new JTextField());
-        //userTable.getColumnModel().getColumn(0).setMaxWidth(200);
-        //userTable.getColumnModel().getColumn(0).setPreferredWidth(100);
         trackTable = new MainDataTable(trackTableData, trackCollNames);
         trackScroll = new JScrollPane(trackTable);
         trackScroll.setName(ENTITY_NAME_TRACK);

@@ -45,41 +45,16 @@ public class MainFormVer3 extends JFrame {
 
     public MainFormVer3() {
         init();
-//        initHeader();
-//        initAddDeleteSearchHeader();
-//        mainTableCardPanel = new MainTableCardPanel();
-//        resultCardPanel = new ResultCardPanel();
-//        headLabelPanel = new HeadLabelPanel(mainTableCardPanel);
-//        addDeletePanel = new AddDeletePanel(mainTableCardPanel, resultCardPanel);
-//        panel.add(resultTable);
         mainTablePanel = new MainTablePanel(); // refactor
-//        resultCardPanel = new ResultCardPanel(); // refactor
         headLabelPanel = new HeadLabelPanel(mainTablePanel);
-        addDeletePanel = new AddDeletePanel(mainTablePanel);
-        //JPanel panel = new JPanel(new MigLayout(debugOn));
-//        JPanel panel1 = new JPanel(new MigLayout(debugOn));
-//        panel.add(userHeadLabel, "alignx center");
-//        panel.add(trackListHeadLabel, "alignx center");
-//        panel.add(trackHeadLabel, "alignx center");
-//        panel.add(artistHeadLabel, "alignx right, wrap");
-//        add(panel, "alignx center, wrap");
-//        add(addDeletePanel, "wrap");
         add(headLabelPanel, "alignx center, wrap");
         add(addDeletePanel, "alignx center, wrap");
         add(mainTablePanel, "align center");
-//        panel1.add(addLabel, "alignx center");
-//        panel1.add(deleteLabel,"alignx center");
-//        panel1.add(searchLabel, "alignx center");
-//        add(panel1, "alignx center");
-
-//        add(mainTableCardPanel);
-//        add(resultCardPanel);
     }
 
     private void init() {
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//        layout = new GroupLayout(getContentPane());
         layout = new MigLayout("debug, alignx center");
         setLayout(layout);
         Toolkit toolkit = Toolkit.getDefaultToolkit();

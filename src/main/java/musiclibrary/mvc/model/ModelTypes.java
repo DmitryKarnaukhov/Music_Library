@@ -4,5 +4,6 @@ public enum ModelTypes {
     Artist,
     Track,
     TrackList,
-    User
+    User,
+    Album
 }

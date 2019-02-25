@@ -1,20 +1,35 @@
 package musiclibrary.entities;
 
 import com.google.common.collect.ImmutableList;
+import org.mongodb.morphia.annotations.Embedded;
+import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.Reference;
+
 import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import static musiclibrary.dbworks.dbconstants.DBconstants.COLLECTION_TRACKLIST;
+
+@org.mongodb.morphia.annotations.Entity(COLLECTION_TRACKLIST)
 public class TrackList extends Entity implements Serializable {
+    @Id
     private final int id;
+    @Reference
     private final Album album;
-    private ImmutableList<Track> tracks;
+    @Reference(concreteClass = ImmutableList.class)
+    private List<Track> tracks;
 
     public TrackList(int id, Album album, List<Track> tracks) {
         this.id = id;
         this.album = album;
         this.tracks = ImmutableList.copyOf(tracks);
+    }
+
+    private TrackList() {
+        id = -1;
+        album = null;
+        tracks = null;
     }
 
     public int getId() {
@@ -25,7 +40,7 @@ public class TrackList extends Entity implements Serializable {
         return album;
     }
 
-    public  ImmutableList<Track> getTracks() {
+    public  List<Track> getTracks() {
         return tracks;
     }
 

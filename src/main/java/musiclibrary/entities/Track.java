@@ -1,14 +1,32 @@
 package musiclibrary.entities;
 
+import org.mongodb.morphia.annotations.Embedded;
+import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.Reference;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+import static musiclibrary.dbworks.dbconstants.DBconstants.COLLECTION_TRACKS;
+
+@org.mongodb.morphia.annotations.Entity(COLLECTION_TRACKS)
 public class Track extends Entity implements Serializable {
+    @Id
     private final int id;
     private final String name;
+    @Reference
     private final Artist artist;
     private final double trackLenght;
+    @Embedded
     private final Genre genre;
+
+    private Track() {
+        id = -1;
+        name = null;
+        artist = null;
+        trackLenght = -1.0;
+        genre = Genre.none;
+    }
 
     public Track(int id, String name, Artist artist,
                  double trackLength, Genre genre) {
