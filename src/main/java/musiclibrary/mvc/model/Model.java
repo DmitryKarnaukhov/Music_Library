@@ -1,17 +1,19 @@
 package musiclibrary.mvc.model;
 
 import com.google.inject.Singleton;
+import musiclibrary.entities.Entity;
 import musiclibrary.mvc.view.Listener;
 import sun.reflect.misc.FieldUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.lang.reflect.*;
 
 @Singleton
-public class Model<T> implements Serializable {
+public class Model<T extends Entity> implements Serializable {
     private ArrayList<Listener> listeners;
     private HashMap<Integer, T> map;
 
@@ -40,12 +42,14 @@ public class Model<T> implements Serializable {
         this.update();
     }
 
-    public void put(int id,T item) {
+    public void put(int id, T item) {
         if (!Objects.equals(map.get(id), item)) {
             map.put(id, item);
             this.update();
         }
     }
+
+    public void update(T item) {}
 
     public boolean remove(int id) {
         if (map.containsKey(id)) {
@@ -61,6 +65,9 @@ public class Model<T> implements Serializable {
         } else throw new RuntimeException("Model have not item with id ="+id);
     }
 
+    public List<T> getItems() {
+        return null;
+    }
 
     @Override
     public int hashCode() {

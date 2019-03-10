@@ -1,8 +1,6 @@
 package musiclibrary.ui.uipanels;
 
-import musiclibrary.ui.listeners.mouselisteners.AddDeleteSearchMouseListener;
 import musiclibrary.ui.listeners.mouselisteners.HeadLabelMouseListener;
-import musiclibrary.ui.listeners.mouselisteners.MainTableListener;
 import net.miginfocom.swing.MigLayout;
 
 import static musiclibrary.ui.uiconstants.ActionNames.*;

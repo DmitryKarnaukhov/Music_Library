@@ -14,7 +14,7 @@ import java.util.List;
 
 import static musiclibrary.dbworks.dbconstants.DBconstants.DBNAME;
 
-public class ArtistDBModel extends Model {
+public class ArtistDBModel extends Model<Artist> {
     Morphia morphia;
     MongoClient mongoClient;
     Datastore ds;
@@ -30,7 +30,7 @@ public class ArtistDBModel extends Model {
     }
 
     public void put(int id, Artist artist) {
-        put(new Artist(id, artist.getName()));
+        put(new Artist(getNextId(), artist.getName()));
     }
 
     public boolean remove(int id) {
@@ -62,6 +62,11 @@ public class ArtistDBModel extends Model {
     public List<Artist> getItems(String artistName) {
         Query<Artist> query = ds.createQuery(Artist.class)
                 .field("name").equal(artistName);
+        return query.asList();
+    }
+
+    public List<Artist> getItems() {
+        Query<Artist> query = ds.createQuery(Artist.class);
         return query.asList();
     }
 

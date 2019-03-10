@@ -1,13 +1,15 @@
 package musiclibrary.mvc.controller;
 
 import com.google.inject.Inject;
+import musiclibrary.entities.Entity;
 import musiclibrary.mvc.model.Model;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.List;
 
-public abstract class GenericController<T>{
+public abstract class GenericController<T extends Entity>{
     protected Model<T> container;
 
     public GenericController() {
@@ -49,6 +51,16 @@ public abstract class GenericController<T>{
 
     public T get(int id) {
         return container.getItem(id);
+    }
+
+    public List<T> getAll() { return null; }
+
+    public void replace(T item) {
+
+    }
+
+    public void add(T item) {
+
     }
 
     public Model<T> getContainer() {

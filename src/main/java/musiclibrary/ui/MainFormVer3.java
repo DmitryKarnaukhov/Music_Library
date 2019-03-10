@@ -47,6 +47,7 @@ public class MainFormVer3 extends JFrame {
         init();
         mainTablePanel = new MainTablePanel(); // refactor
         headLabelPanel = new HeadLabelPanel(mainTablePanel);
+        addDeletePanel = new AddDeletePanel(mainTablePanel);
         add(headLabelPanel, "alignx center, wrap");
         add(addDeletePanel, "alignx center, wrap");
         add(mainTablePanel, "align center");

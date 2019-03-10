@@ -28,7 +28,7 @@ public class ResultCardPanel extends JPanel {
         addUserPanel = new AddUserPanel();
         addTrackPanel = new AddTrackPanel();
         addTrackListPanel = new AddTrackListPanel();
-        addArtistPanel = new AddArtistPanel();
+        addArtistPanel = new AddArtistPanel(null);
         add(ACTION_NAME_ADD_USER, addUserPanel);
         add(ACTION_NAME_ADD_ARTIST, addArtistPanel);
         add(ACTION_NAME_ADD_TRACK, addTrackPanel);

@@ -4,14 +4,17 @@ import musiclibrary.entities.Artist;
 import musiclibrary.entities.Track;
 import musiclibrary.entities.TrackList;
 import musiclibrary.entities.User;
+import musiclibrary.mvc.controller.ArtistController;
+import musiclibrary.mvc.model.modelswithmorphia.ArtistDBModel;
+import musiclibrary.mvc.view.uiArtistView;
 import musiclibrary.ui.tables.MainDataTable;
 import musiclibrary.ui.tables.collnames.ReflectionCollNames;
-import musiclibrary.ui.uiconstants.ActionNames;
 import musiclibrary.ui.uipanels.addpanels.*;
 import musiclibrary.ui.uipanels.searchpanels.*;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 import static musiclibrary.ui.uiconstants.ActionNames.*;
@@ -38,9 +41,14 @@ public class MainTablePanel extends JPanel{
     private SearchTrackListPanel searchTrackListPanel;
     private SearchTrackPanel searchTrackPanel;
     private SearchUserPanel searchUserPanel;
+    public uiArtistView artistView;
+    private String[][] artistTableData;
+    private String[] artistCollNames;
+
     public MainTablePanel() {
         layout = new MigLayout("alignx center, debug");
         setLayout(layout);
+        setViews();
 
         String[] userCollNames = new String[0];
         userCollNames = ReflectionCollNames.getEntityFieldNames(User.class);
@@ -54,32 +62,26 @@ public class MainTablePanel extends JPanel{
                 { "1", "myName", "artist1", "3.0", "Rock" }
         };
         String[] trackListCollNames = ReflectionCollNames.getEntityFieldNames(TrackList.class);
-        String[][] trackListTableData = new String[][] {
-                { "1", "Album#1", "First track" },
-                { "2", "Album#2", "First track" }
-        };
-        String[] artistCollNames = ReflectionCollNames.getEntityFieldNames(Artist.class);
-        String[][] artistTableData = new String[][] {
-                { "1", "Star#1" },
-                { "2", "Star#2" },
-        };
+        String[][] trackListTableData = null;
+
         userTable = new MainDataTable(userTableData, userCollNames);
         userScroll = new JScrollPane(userTable);
         userScroll.setName(ENTITY_NAME_USER);
-        CellEditor cellEditor = new DefaultCellEditor(new JTextField());
         trackTable = new MainDataTable(trackTableData, trackCollNames);
         trackScroll = new JScrollPane(trackTable);
         trackScroll.setName(ENTITY_NAME_TRACK);
         trackListTable = new MainDataTable(trackListTableData, trackListCollNames);
         trackListScroll = new JScrollPane(trackListTable);
         trackListScroll.setName(ENTITY_NAME_TRACKLIST);
+        artistCollNames = ReflectionCollNames.getEntityFieldNames(Artist.class);
+        artistTableData = artistView.getAllTableData();
         artistTable = new MainDataTable(artistTableData, artistCollNames);
         artistScroll = new JScrollPane(artistTable);
         artistScroll.setName(ENTITY_NAME_ARTIST);
-//        add(userScroll);
+        addArtistPanel = new AddArtistPanel(ACTION_NAME_ADD_ARTIST, this);
+        refreshArtistTable();
         addUserPanel = new AddUserPanel(ACTION_NAME_ADD_USER);
         addTrackPanel = new AddTrackPanel(ACTION_NAME_ADD_TRACK);
-        addArtistPanel = new AddArtistPanel(ACTION_NAME_ADD_ARTIST);
         addTrackListPanel = new AddTrackListPanel(ACTION_NAME_SEARCH_TRACKLIST);
         addAlbumPanel = new AddAlbumPanel(ACTION_NAME_SEARCH_ARTIST);
         searchAlbumPanel = new SearchAlbumPanel(ACTION_NAME_SEARCH_ALBUM);
@@ -87,14 +89,17 @@ public class MainTablePanel extends JPanel{
         searchTrackListPanel = new SearchTrackListPanel(ACTION_NAME_SEARCH_TRACKLIST);
         searchTrackPanel = new SearchTrackPanel(ACTION_NAME_SEARCH_TRACK);
         searchUserPanel = new SearchUserPanel(ACTION_NAME_SEARCH_USER);
-
-        AddTrackListPanel addTrackListPanel = new AddTrackListPanel();
-        AddArtistPanel addArtistPanel = new AddArtistPanel();
         add(userScroll);
+    }
 
-//        add(ENTITY_NAME_TRACK, trackScroll);
-//        add(ENTITY_NAME_TRACKLIST, trackListScroll);
-//        add(ENTITY_NAME_ARTIST, artistScroll);
+    private void setViews() {
+        artistView = new uiArtistView(new ArtistController(new ArtistDBModel()));
+    }
+
+    public void refreshArtistTable() {
+        DefaultTableModel tableModel = new DefaultTableModel();
+        tableModel.setDataVector(artistView.getAllTableData(), artistCollNames);
+        artistTable.setModel(tableModel);
     }
 
     public void addTable(String name) {
@@ -116,12 +121,14 @@ public class MainTablePanel extends JPanel{
                 break;
             case ENTITY_NAME_ARTIST:
                 removeAll();
+                refreshArtistTable();
                 add(artistScroll);
                 revalidate();
                 break;
             case ACTION_NAME_ADD_ARTIST:
                 removeAll();
                 add(addArtistPanel);
+                revalidate();
                 break;
             case ACTION_NAME_ADD_TRACK:
                 removeAll();
@@ -145,6 +152,7 @@ public class MainTablePanel extends JPanel{
                 break;
             case ACTION_NAME_SEARCH_ARTIST:
                 removeAll();
+
                 add(searchArtistPanel);
                 revalidate();
                 break;

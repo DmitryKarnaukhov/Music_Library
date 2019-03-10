@@ -30,6 +30,11 @@ public class AlbumDBModel extends Model {
         ds.save(album);
     }
 
+    public void put(int id, Album album) {
+        Album newAlbum = new Album(id, album.getName());
+        ds.save(newAlbum);
+    }
+
     public boolean remove(int id) {
         Query<Album> query = ds.createQuery(Album.class)
                 .field("_id").equal(id);

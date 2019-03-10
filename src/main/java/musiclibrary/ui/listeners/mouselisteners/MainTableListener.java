@@ -46,7 +46,7 @@ public class MainTableListener implements MouseListener {
                 JOptionPane.showMessageDialog(mainDataTable, "tracklist will be shown");
                 break;
         }
-        mainDataTable.clearSelection();
+//        mainDataTable.clearSelection();
     }
 
     @Override

@@ -31,8 +31,24 @@ public class HeadLabelMouseListener implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         String labelText = ((JLabel)e.getComponent()).getText();
-//        ((CardLayout) mainTableCardPanel.getLayout()).show(mainTableCardPanel, labelText);
-        mainTablePanel.addTable(labelText);
+        switch(labelText) {
+            case "DELETE":
+                if (mainTablePanel.getComponent(0) instanceof JScrollPane) {
+                    JTable table = (JTable)(((JScrollPane) mainTablePanel.getComponent(0)).getViewport().getView());
+                    int selectedRow = table.getSelectedRow();
+                    if(selectedRow == -1) {
+                        JOptionPane.showMessageDialog(mainTablePanel, "Choose the row!");
+                    } else {
+                        int id = Integer.valueOf((String) table.getValueAt(selectedRow, 0));
+                        mainTablePanel.artistView.remove(id);
+                        mainTablePanel.refreshArtistTable();
+                    }
+                }
+                break;
+            default:
+                mainTablePanel.addTable(labelText);
+                break;
+        }
     }
 
     @Override
