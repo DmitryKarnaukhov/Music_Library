@@ -4,15 +4,10 @@ import com.google.common.collect.ImmutableList;
 import com.mongodb.MongoClient;
 import musiclibrary.dbworks.dbconstants.DBconstants;
 import musiclibrary.entities.*;
-import org.junit.Assert;
-import org.junit.Test;
-import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.Morphia;
+import org.junit.*;
+import org.mongodb.morphia.*;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class TrackListDBModelTest {
     Morphia morphia;
@@ -61,6 +56,14 @@ public class TrackListDBModelTest {
         initTracks();
         testAlbum = new Album(albumModel.getNextId(), testAlbumName);
         albumModel.put(testAlbum);
+    }
+
+    @After
+    public void cleanUp() {
+        datastore.delete(datastore.createQuery(TrackList.class));
+        datastore.delete(datastore.createQuery(Track.class));
+        datastore.delete(datastore.createQuery(Artist.class));
+        datastore.delete(datastore.createQuery(Album.class));
     }
 
     private void initArtists() {
