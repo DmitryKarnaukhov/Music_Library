@@ -2,14 +2,9 @@ package musiclibrary.mvc.model.modelswithmorphia;
 
 import com.mongodb.MongoClient;
 import musiclibrary.dbworks.dbconstants.DBconstants;
-import musiclibrary.entities.Artist;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Test;
-import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.Morphia;
-
-import static org.junit.Assert.*;
+import musiclibrary.entities.*;
+import org.junit.*;
+import org.mongodb.morphia.*;
 
 public class ArtistDBModelTest {
     Morphia morphia;
@@ -28,6 +23,11 @@ public class ArtistDBModelTest {
         mongoClient = new MongoClient();
         datastore = morphia.createDatastore(mongoClient, DBconstants.DBNAME);
         artistModel = new ArtistDBModel();
+    }
+
+    @After
+    public void cleanUp() {
+        datastore.delete(datastore.createQuery(Artist.class));
     }
 
     @Test

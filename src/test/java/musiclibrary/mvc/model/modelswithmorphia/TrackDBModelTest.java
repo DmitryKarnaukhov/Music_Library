@@ -37,6 +37,12 @@ public class TrackDBModelTest {
         trackModel = new TrackDBModel();
     }
 
+    @After
+    public void cleanUp() {
+        datastore.delete(datastore.createQuery(Track.class));
+        datastore.delete(datastore.createQuery(Artist.class));
+    }
+
     @Test
     public void put() {
         Artist testArtist = new Artist(artistModel.getNextId(), putTestArtistName);
